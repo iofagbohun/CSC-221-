@@ -1,11 +1,11 @@
 """
-My Lab 2 Art
+This is a sample program
 """
 
 # import arcade
 import arcade
 
-arcade.open_window(600, 600, "Lab 2 Art")
+arcade.open_window(600, 600, "Drawing Examples")
 
 # set background color
 arcade.set_background_color(arcade.csscolor.SKY_BLUE)
