@@ -5,7 +5,8 @@ ray_y = 600
 SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 600
 
-
+def draw_sun(x, y):
+    arcade.draw_circle_filled(0, 600, 100, arcade.csscolor.YELLOW)
 def draw_tree(x, y):
     arcade.draw_rectangle_filled(550 + x , 230 + y, 20, 60, arcade.csscolor.SIENNA)
     arcade.draw_circle_filled(550 + x, 250 + y, 30, arcade.csscolor.WHITE)
@@ -49,6 +50,7 @@ def on_draw(z):
     # Draw the ground
     arcade.draw_lrtb_rectangle_filled(0, SCREEN_WIDTH, SCREEN_HEIGHT / 3, 0, arcade.color.AIR_SUPERIORITY_BLUE)
     """draw everything"""
+    draw_sun(0, 0)
     draw_tree(50, 0)
     draw_tree(90, 0)
     draw_tree(130, 0)
