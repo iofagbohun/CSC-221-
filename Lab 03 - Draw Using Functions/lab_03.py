@@ -6,8 +6,10 @@ SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 600
 
 def draw_sun(x, y):
+    """draw sun"""
     arcade.draw_circle_filled(0, 600, 100, arcade.csscolor.YELLOW)
 def draw_tree(x, y):
+    """draw tree"""
     arcade.draw_rectangle_filled(550 + x , 230 + y, 20, 60, arcade.csscolor.SIENNA)
     arcade.draw_circle_filled(550 + x, 250 + y, 30, arcade.csscolor.WHITE)
 def draw_panda(x, y):
