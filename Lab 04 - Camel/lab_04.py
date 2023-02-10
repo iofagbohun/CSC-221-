@@ -17,10 +17,11 @@ def main():
     get_input()
 
 
-def get_input(native_traveled=-20, camel_tiredness=0):
+def get_input(native_traveled=-20, camel_tiredness=0, miles_traveled = 0, thirst = 1):
     done = False
     while not done:
         natives_behind = miles_traveled - native_traveled
+        fullspeed = random.randrange(10, 21)
         print("A. Drink from your canteen.")
         print("B. Ahead moderate speed.")
         print("C. Ahead full speed.")
@@ -42,6 +43,15 @@ def get_input(native_traveled=-20, camel_tiredness=0):
             camel_tiredness *= 0
             print("camel is happy")
             native_traveled += random.randrange(7, 15)
+#moving full speed ahead
+        elif user_choice.upper() == "c":
+            print("you traveled ", fullspeed, "miles")
+            miles_traveled += fullspeed
+            thirst += 1
+            camel_tiredness +=random.randrange(1,4)
+            native_traveled += random.randrange(7, 15)
+            oasis = random.randrange(1, 21)
+
 
 
 main()
