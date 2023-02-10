@@ -22,4 +22,5 @@ def get_input():
             print("thanks for playing")
             done = True
 
+
 main()
