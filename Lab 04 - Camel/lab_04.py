@@ -1,6 +1,4 @@
-import arcade
 import random
-
 
 
 def main():
@@ -45,7 +43,7 @@ def main():
             print("you traveled ", full_speed, "miles")
             miles_traveled += full_speed
             thirst += 1
-            camel_tiredness +=random.randrange(1,4)
+            camel_tiredness += random.randrange(1, 4)
             native_traveled += random.randrange(7, 15)
             oasis = random.randrange(1, 21)
         # moving in moderate speed
