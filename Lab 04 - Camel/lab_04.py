@@ -12,6 +12,7 @@ def main():
     print("The natives want their camel back and are chasing you down! Survive your")
     print("desert trek and out run the natives.")
 
+
     done = False
     while not done:
         natives_behind = miles_traveled - native_traveled
