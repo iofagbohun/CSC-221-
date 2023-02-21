@@ -36,9 +36,14 @@ def draw_section_2():
 
 
 def draw_section_3():
-    # Use the modulus operator and an if/else statement to select the color.
-    # Don't use multiple 'if' statements.
-    pass
+    for row in range(30):
+        for column in range(30):
+            x = 605 + column * 10
+            y = y = 5 + row * 10
+            if row % 2 ==0:
+                arcade.draw_rectangle_filled(x, y, 5, 5, arcade.color.WHITE)
+            else:
+                arcade.draw_rectangle_filled(x, y, 5, 5, arcade.color.DARK_BLUE)
 
 
 def draw_section_4():
