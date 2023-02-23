@@ -58,13 +58,19 @@ def draw_section_4():
 
 
 def draw_section_5():
-    # Do NOT use 'if' statements to complete 5-8. Manipulate the loops instead.
-    pass
+    for row in range(30):
+        for column in range(30 - row):
+            x = 5 + column * 10
+            y = 305 + row * 10
+            arcade.draw_rectangle_filled(x, y, 5, 5, arcade.color.WHITE)
 
 
 def draw_section_6():
-    pass
-
+    for row in range(30):
+        for column in range(30 - row):
+            x = 305 + column * 10
+            y = 305 + row * 10
+            arcade.draw_rectangle_filled(x, y, 5, 5, arcade.color.WHITE)
 
 def draw_section_7():
     pass
