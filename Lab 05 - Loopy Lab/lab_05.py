@@ -97,7 +97,6 @@ def main():
 
     # Draw the outlines for the sections
     draw_section_outlines()
-
     # Draw the sections
     draw_section_1()
     draw_section_2()
