@@ -96,6 +96,7 @@ def main():
     arcade.start_render()
 
     # Draw the outlines for the sections
+
     draw_section_outlines()
     # Draw the sections
     draw_section_1()
