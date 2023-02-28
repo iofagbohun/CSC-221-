@@ -33,3 +33,8 @@ def main():
             # check for valid choice
         if next_room == None:
             print ("you cant go that way!")
+
+            # if all is well, set new room
+        current_room = next_room
+
+main()
