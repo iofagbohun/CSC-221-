@@ -14,15 +14,15 @@ def main():
     next_room = 0
     done = False
 
-    # beedroom 2 -0 ( description, north, east, south, west)
-    room = Room ("you are in the second room, there is a door ro the east.", None, 1, None, None)
+    # beedroom 2 - 0 ( description, north, east, south, west)
+    room = Room("you are in the second room, there is a door ro the east.",None, 1, None, None)
     room_list.append(room)
 
     #add rest of rooms
     while not done:
         print(room_list[current_room].description)
         direction = input("which way would you like to go? (n s e w)").lower()
-        if direction [0]== 'n':
+        if direction[0]== 'n':
             next_room = room_list[current_room].north
 
             # add other directions
