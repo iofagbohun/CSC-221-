@@ -14,7 +14,7 @@ def main():
     next_room = 0
     done = False
 
-    # beedroom 2 - 0 ( description, north, east, south, west)
+    # bedroom 2 - 0 ( description, north, east, south, west)
     room = Room("you are in the second room, there is a door ro the east.",None, 1, None, None)
     room_list.append(room)
 
