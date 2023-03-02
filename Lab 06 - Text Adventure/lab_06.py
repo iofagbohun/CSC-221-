@@ -37,4 +37,5 @@ def main():
             # if all is well, set new room
         current_room = next_room
 
+
 main()
