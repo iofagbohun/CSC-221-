@@ -1,6 +1,6 @@
 class Room:
     """This is a class"""
-    def __int__(self, description, north, east, south, west):
+    def __init__(self, description, north, east, south, west):
         self.description = description
         self.north = north
         self.east = east
