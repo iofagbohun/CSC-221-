@@ -14,7 +14,7 @@ def main():
     next_room = 0
     done = False
 
-    # bedroom 2 - 0 ( description, north, east, south, west)
+    # bedroom 2 - 0 ( description, north, east, south, west) 0
     room = Room("\nyou are in the second room, there is a door to the east.",None, 1, None, None)
     room_list.append(room)
 
@@ -26,16 +26,16 @@ def main():
     room = Room("\nyou are in the Dinnig room, there is a door to the north and west.", 5, None, None, 1)
     room_list.append(room)
 
-    # Kitchen
-    room = Room("\nyou are in the Kitchen, there is a door to the south and west.", None, None, 2, 4)
+    # bedroom 1
+    room = Room("\nyou are in the first bedroom, there is a door to the east.", None, 4, None, None)
     room_list.append(room)
 
     # North hall
-    room = Room("\nyou are in the North hall, there is a door to the North, East, South, And West", 6, 5, 1, 1)
+    room = Room("\nyou are in the North hall, there is a door to the North, East, South, And West", 6, 5, 1, 3)
     room_list.append(room)
 
-    # bedroom 1
-    room = Room("\nyou are in the first bedroom, there is a door to the east.", None, 4, None, None)
+    # Kitchen
+    room = Room("\nyou are in the Kitchen, there is a door to the south and west.", None, None, 2, 4)
     room_list.append(room)
 
     # Balcony
@@ -68,11 +68,13 @@ def main():
             continue
 
             # check for valid choice
-        if next_room == None:
+        if next_room is None:
             print ("you cant go that way!")
-
+        else:
             # if all is well, set new room
-        current_room = next_room
+            current_room = next_room
+
+
 
 
 main()
