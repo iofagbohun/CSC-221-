@@ -6,6 +6,8 @@ class Room:
         self.east = east
         self.south = south
         self.west = west
+
+
 def main():
     """This is the main function"""
     # Creating empty list
@@ -15,7 +17,7 @@ def main():
     done = False
 
     # bedroom 2 - 0 ( description, north, east, south, west) 0
-    room = Room("\nyou are in the second room, there is a door to the east.",None, 1, None, None)
+    room = Room("\nyou are in the second room, there is a door to the east.", None, 1, None, None)
     room_list.append(room)
 
     # south hall
@@ -23,7 +25,7 @@ def main():
     room_list.append(room)
 
     # Dinning room
-    room = Room("\nyou are in the Dinnig room, there is a door to the north and west.", 5, None, None, 1)
+    room = Room("\nyou are in the Dining room, there is a door to the north and west.", 5, None, None, 1)
     room_list.append(room)
 
     # bedroom 1
@@ -42,7 +44,7 @@ def main():
     room = Room("\nyou are in the balcony, there is a door to the south", None, None, 4, None)
     room_list.append(room)
 
-    #add rest of rooms
+    # add rest of rooms
     while not done:
         print(room_list[current_room].description)
         direction = input("which way would you like to go? (n s e w)").lower()
@@ -69,12 +71,10 @@ def main():
 
             # check for valid choice
         if next_room is None:
-            print ("you cant go that way!")
+            print("you cant go that way!")
         else:
             # if all is well, set new room
             current_room = next_room
-
-
 
 
 main()
