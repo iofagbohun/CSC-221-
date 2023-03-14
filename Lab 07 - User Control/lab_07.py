@@ -87,6 +87,7 @@ class MyGame(arcade.Window):
     def on_update(self, delta_time):
         """ Movement and game logic """
 
+
         # Generate a list of all sprites that collided with the player.
         coins_hit_list = arcade.check_for_collision_with_list(self.player_sprite,
                                                               self.coin_list)
