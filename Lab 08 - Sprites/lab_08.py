@@ -22,6 +22,7 @@ class MyGame(arcade.Window):
         # Variables that will hold sprite lists
         self.player_list = None
         self.coin_list = None
+        self.bad_sprite = None
 
         # Set up the player info
         self.player_sprite = None
@@ -38,6 +39,8 @@ class MyGame(arcade.Window):
         # Sprite lists
         self.player_list = arcade.SpriteList()
         self.coin_list = arcade.SpriteList()
+        self.bad_sprite = arcade.SpriteList()
+
 
         # Score
         self.score = 0
