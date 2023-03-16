@@ -68,11 +68,27 @@ class MyGame(arcade.Window):
             # Add the coin to the lists
             self.coin_list.append(coin)
 
+        # create bad sprite
+        for i in range(10):
+
+            # Create the coin instance
+            # Coin image from kenney.nl
+            sprite = arcade.Sprite("poop.png",
+                                 SPRITE_SCALING_COIN)
+
+            # Position the coin
+            sprite.center_x = random.randrange(SCREEN_WIDTH)
+            sprite.center_y = random.randrange(SCREEN_HEIGHT)
+
+            # Add the coin to the lists
+            self.bad_sprite.append(sprite)
+
     def on_draw(self):
         """ Draw everything """
         self.clear()
         self.coin_list.draw()
         self.player_list.draw()
+        self.bad_sprite.draw()
 
         # Put the text on the screen.
         output = f"Score: {self.score}"
