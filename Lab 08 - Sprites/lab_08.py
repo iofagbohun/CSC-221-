@@ -5,6 +5,7 @@ import arcade
 # --- Constants ---
 SPRITE_SCALING_PLAYER = 0.5
 SPRITE_SCALING_COIN = .25
+SPRITE_SCALING_METEORITE = .10
 COIN_COUNT = 50
 
 SCREEN_WIDTH = 800
@@ -73,8 +74,8 @@ class MyGame(arcade.Window):
 
             # Create the coin instance
             # Coin image from kenney.nl
-            sprite = arcade.Sprite("poop.png",
-                                 SPRITE_SCALING_COIN)
+            sprite = arcade.Sprite("meteorite.png",
+                                 SPRITE_SCALING_METEORITE)
 
             # Position the coin
             sprite.center_x = random.randrange(SCREEN_WIDTH)
