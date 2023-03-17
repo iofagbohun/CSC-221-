@@ -115,6 +115,13 @@ class MyGame(arcade.Window):
             coin.remove_from_sprite_lists()
             self.score += 1
 
+        bad_sprite_hit_list = arcade.check_for_collision_with_list(self.player_sprite, self.bad_sprite)
+        for bad_sprite in bad_sprite_hit_list:
+            bad_sprite.remove_from_sprite_lists()
+            self.score -=1
+
+
+
 
 def main():
     """ Main function """
