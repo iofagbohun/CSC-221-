@@ -32,6 +32,10 @@ class MyGame(arcade.Window):
         # Don't show the mouse cursor
         self.set_mouse_visible(False)
 
+        # sound
+        self.laser_sound = arcade.load_sound("laser.wav")
+
+
         arcade.set_background_color(arcade.color.AMAZON)
 
     def setup(self):
@@ -68,6 +72,7 @@ class MyGame(arcade.Window):
 
             # Add the coin to the lists
             self.coin_list.append(coin)
+
 
         # create bad sprite
         for i in range(10):
@@ -114,11 +119,14 @@ class MyGame(arcade.Window):
         for coin in coins_hit_list:
             coin.remove_from_sprite_lists()
             self.score += 1
+            if coin == coins_hit_list:
+                arcade.play_sound(self.laser_sound)
 
         bad_sprite_hit_list = arcade.check_for_collision_with_list(self.player_sprite, self.bad_sprite)
         for bad_sprite in bad_sprite_hit_list:
             bad_sprite.remove_from_sprite_lists()
             self.score -=1
+
 
 
 
