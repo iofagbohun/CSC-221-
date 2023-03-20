@@ -81,7 +81,7 @@ class MyGame(arcade.Window):
 
 
         # create bad sprite
-        for i in range(10):
+        for i in range(15):
 
             # Create the coin instance
             # Coin image from kenney.nl
