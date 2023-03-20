@@ -13,9 +13,12 @@ SCREEN_HEIGHT = 600
 SCREEN_TITLE = "Sprite Collect Coins Example"
 
 class Coin(arcade.Sprite):
-
+    def __init__(self, file, scale):
+        super().__init__(file, scale)
     def update(self):
         self.center_y -= 1
+        if self.center_y == 0:
+            self.center_y = SCREEN_HEIGHT
 class MyGame(arcade.Window):
 
     def __init__(self):
@@ -36,8 +39,8 @@ class MyGame(arcade.Window):
         self.set_mouse_visible(False)
 
         # sound
-        self.belt_sound = arcade.load_sound("beltHandle1.png")
-        self.knifeslice = arcade.load_sound("knifeSlice.png")
+        self.belt_sound = arcade.load_sound("beltHandle1.ogg")
+        self.knifeslice = arcade.load_sound("knifeSlice.ogg")
 
 
         arcade.set_background_color(arcade.color.AMAZON)
@@ -67,7 +70,7 @@ class MyGame(arcade.Window):
 
             # Create the coin instance
             # Coin image from kenney.nl
-            coin = arcade.Sprite(":resources:images/items/coinGold.png", SPRITE_SCALING_COIN)
+            coin = Coin(":resources:images/items/coinGold.png", SPRITE_SCALING_COIN)
 
             # Position the coin
             coin.center_x = random.randrange(SCREEN_WIDTH)
@@ -112,7 +115,7 @@ class MyGame(arcade.Window):
         self.player_sprite.center_y = y
 
     def on_update(self, delta_time):
-
+        self.coin_list.update()
 
         # Generate a list of all sprites that collided with the player.
         coins_hit_list = arcade.check_for_collision_with_list(self.player_sprite,
@@ -122,15 +125,16 @@ class MyGame(arcade.Window):
         for coin in coins_hit_list:
             coin.remove_from_sprite_lists()
             self.score += 1
-            if self.player_sprite == coins_hit_list:
-                arcade.play_sound(self.belt_sound)
+            #if self.player_sprite == coins_hit_list:
+            arcade.play_sound(self.belt_sound)
 
         bad_sprite_hit_list = arcade.check_for_collision_with_list(self.player_sprite, self.bad_sprite)
         for bad_sprite in bad_sprite_hit_list:
             bad_sprite.remove_from_sprite_lists()
             self.score -=1
-            if self.player_sprite == bad_sprite_hit_list:
-                arcade.play_sound(self.knifeslice)
+            #if self.player_sprite == bad_sprite_hit_list:
+            arcade.play_sound(self.knifeslice)
+
 
 
 
