@@ -1,4 +1,3 @@
-
 import random
 import arcade
 
@@ -12,20 +11,27 @@ SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 600
 SCREEN_TITLE = "Sprite Collect Coins Example"
 
+
 class Coin(arcade.Sprite):
     def __init__(self, file, scale):
         super().__init__(file, scale)
+
     def update(self):
         self.center_y -= 1
         if self.center_y == 0:
             self.center_y = SCREEN_HEIGHT
+
+
 class Sprite(arcade.Sprite):
     def __init__(self, file, scale):
         super().__init__(file, scale)
+
     def update(self):
         self.center_x -= 1
         if self.center_x == 0:
             self.center_x = SCREEN_WIDTH
+
+
 class MyGame(arcade.Window):
 
     def __init__(self):
@@ -37,6 +43,7 @@ class MyGame(arcade.Window):
         self.player_list = None
         self.coin_list = None
         self.bad_sprite = None
+        self.game_over = None
 
         # Set up the player info
         self.player_sprite = None
@@ -49,7 +56,6 @@ class MyGame(arcade.Window):
         self.belt_sound = arcade.load_sound("beltHandle1.ogg")
         self.knifeslice = arcade.load_sound("knifeSlice.ogg")
 
-
         arcade.set_background_color(arcade.color.AMAZON)
 
     def setup(self):
@@ -59,6 +65,8 @@ class MyGame(arcade.Window):
         self.player_list = arcade.SpriteList()
         self.coin_list = arcade.SpriteList()
         self.bad_sprite = arcade.SpriteList()
+
+
 
 
         # Score
@@ -74,7 +82,6 @@ class MyGame(arcade.Window):
 
         # Create the coins
         for i in range(COIN_COUNT):
-
             # Create the coin instance
             # Coin image from kenney.nl
             coin = Coin(":resources:images/items/coinGold.png", SPRITE_SCALING_COIN)
@@ -86,10 +93,8 @@ class MyGame(arcade.Window):
             # Add the coin to the lists
             self.coin_list.append(coin)
 
-
         # create bad sprite
         for i in range(15):
-
             # Create the coin instance
             # Coin image from kenney.nl
             sprite = Sprite("meteorite.png", SPRITE_SCALING_METEORITE)
@@ -136,12 +141,8 @@ class MyGame(arcade.Window):
         bad_sprite_hit_list = arcade.check_for_collision_with_list(self.player_sprite, self.bad_sprite)
         for bad_sprite in bad_sprite_hit_list:
             bad_sprite.remove_from_sprite_lists()
-            self.score -=1
+            self.score -= 1
             arcade.play_sound(self.knifeslice)
-
-
-
-
 
 
 def main():
