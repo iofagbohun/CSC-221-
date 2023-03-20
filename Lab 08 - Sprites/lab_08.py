@@ -118,6 +118,7 @@ class MyGame(arcade.Window):
         if self.coin_list == 0:
             arcade.draw_text("Game over", 300, 300, arcade.color.BLUE, 25)
 
+
     def on_mouse_motion(self, x, y, dx, dy):
         """ Handle Mouse Motion """
 
