@@ -65,6 +65,9 @@ class MyGame(arcade.Window):
         self.player_list = arcade.SpriteList()
         self.coin_list = arcade.SpriteList()
         self.bad_sprite = arcade.SpriteList()
+        self.game_over = arcade.SpriteList()
+        if self.coin_list == 0:
+            print("Game over")
 
 
 
