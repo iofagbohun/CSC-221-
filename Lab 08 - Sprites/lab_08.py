@@ -19,6 +19,13 @@ class Coin(arcade.Sprite):
         self.center_y -= 1
         if self.center_y == 0:
             self.center_y = SCREEN_HEIGHT
+class Sprite(arcade.Sprite):
+    def __init__(self, file, scale):
+        super().__init__(file, scale)
+    def update(self):
+        self.center_x -= 1
+        if self.center_x == 0:
+            self.center_x = SCREEN_WIDTH
 class MyGame(arcade.Window):
 
     def __init__(self):
@@ -85,8 +92,7 @@ class MyGame(arcade.Window):
 
             # Create the coin instance
             # Coin image from kenney.nl
-            sprite = arcade.Sprite("meteorite.png",
-                                 SPRITE_SCALING_METEORITE)
+            sprite = Sprite("meteorite.png", SPRITE_SCALING_METEORITE)
 
             # Position the coin
             sprite.center_x = random.randrange(SCREEN_WIDTH)
