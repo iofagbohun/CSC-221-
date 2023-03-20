@@ -125,14 +125,12 @@ class MyGame(arcade.Window):
         for coin in coins_hit_list:
             coin.remove_from_sprite_lists()
             self.score += 1
-            #if self.player_sprite == coins_hit_list:
             arcade.play_sound(self.belt_sound)
 
         bad_sprite_hit_list = arcade.check_for_collision_with_list(self.player_sprite, self.bad_sprite)
         for bad_sprite in bad_sprite_hit_list:
             bad_sprite.remove_from_sprite_lists()
             self.score -=1
-            #if self.player_sprite == bad_sprite_hit_list:
             arcade.play_sound(self.knifeslice)
 
 
