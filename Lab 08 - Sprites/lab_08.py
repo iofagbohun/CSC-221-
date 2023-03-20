@@ -12,7 +12,10 @@ SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 600
 SCREEN_TITLE = "Sprite Collect Coins Example"
 
+class Coin(arcade.Sprite):
 
+    def update(self):
+        self.center_y -= 1
 class MyGame(arcade.Window):
 
     def __init__(self):
