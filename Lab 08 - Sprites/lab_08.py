@@ -33,7 +33,7 @@ class MyGame(arcade.Window):
         self.set_mouse_visible(False)
 
         # sound
-        self.laser_sound = arcade.load_sound("laser.wav")
+        self.belt_sound = arcade.load_sound("beltHandle1.ogg")
 
 
         arcade.set_background_color(arcade.color.AMAZON)
@@ -120,7 +120,7 @@ class MyGame(arcade.Window):
             coin.remove_from_sprite_lists()
             self.score += 1
             if coin == coins_hit_list:
-                arcade.play_sound(self.laser_sound)
+                arcade.play_sound(self.belt_sound)
 
         bad_sprite_hit_list = arcade.check_for_collision_with_list(self.player_sprite, self.bad_sprite)
         for bad_sprite in bad_sprite_hit_list:
