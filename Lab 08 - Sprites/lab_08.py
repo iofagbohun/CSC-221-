@@ -67,6 +67,7 @@ class MyGame(arcade.Window):
         self.bad_sprite = arcade.SpriteList()
         self.game_over = arcade.SpriteList()
 
+
         # Score
         self.score = 0
 
