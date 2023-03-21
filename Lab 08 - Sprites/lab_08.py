@@ -22,7 +22,7 @@ class Coin(arcade.Sprite):
             self.center_y = SCREEN_HEIGHT
 
 
-class Sprite(arcade.Sprite):
+class Bad_sprite(arcade.Sprite):
     def __init__(self, file, scale):
         super().__init__(file, scale)
 
@@ -95,7 +95,7 @@ class MyGame(arcade.Window):
         for i in range(15):
             # Create the coin instance
             # Coin image from kenney.nl
-            sprite = Sprite("meteorite.png", SPRITE_SCALING_METEORITE)
+            sprite = Bad_sprite("meteorite.png", SPRITE_SCALING_METEORITE)
 
             # Position the coin
             sprite.center_x = random.randrange(SCREEN_WIDTH)
@@ -128,6 +128,7 @@ class MyGame(arcade.Window):
 
     def on_update(self, delta_time):
         self.coin_list.update()
+        self.bad_sprite.update()
 
         # Generate a list of all sprites that collided with the player.
         coins_hit_list = arcade.check_for_collision_with_list(self.player_sprite,
