@@ -1,11 +1,11 @@
 import random
 import arcade
-
 # --- Constants ---
 SPRITE_SCALING_PLAYER = 0.5
 SPRITE_SCALING_COIN = .25
 SPRITE_SCALING_METEORITE = .10
 COIN_COUNT = 50
+SPRITE_SCALING_MONEY = .09
 
 SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 600
@@ -44,6 +44,7 @@ class MyGame(arcade.Window):
         self.coin_list = None
         self.bad_sprite = None
         self.game_over = None
+        self.freeze = None
 
         # Set up the player info
         self.player_sprite = None
@@ -66,6 +67,7 @@ class MyGame(arcade.Window):
         self.coin_list = arcade.SpriteList()
         self.bad_sprite = arcade.SpriteList()
         self.game_over = arcade.SpriteList()
+        self.freeze = arcade.SpriteList()
 
 
         # Score
@@ -83,7 +85,7 @@ class MyGame(arcade.Window):
         for i in range(COIN_COUNT):
             # Create the coin instance
             # Coin image from kenney.nl
-            coin = Coin(":resources:images/items/coinGold.png", SPRITE_SCALING_COIN)
+            coin = Coin("money_sign.png", SPRITE_SCALING_MONEY)
 
             # Position the coin
             coin.center_x = random.randrange(SCREEN_WIDTH)
@@ -127,24 +129,28 @@ class MyGame(arcade.Window):
         self.player_sprite.center_y = y
 
     def on_update(self, delta_time):
-        self.coin_list.update()
-        self.bad_sprite.update()
+        if not self.freeze:
+            self.coin_list.update()
+            self.bad_sprite.update()
+            if len(self.coin_list) == 0:
+                self.freeze = True
 
-        # Generate a list of all sprites that collided with the player.
-        coins_hit_list = arcade.check_for_collision_with_list(self.player_sprite,
-                                                              self.coin_list)
+            # Generate a list of all sprites that collided with the player.
+            coins_hit_list = arcade.check_for_collision_with_list(self.player_sprite,
+                                                                  self.coin_list)
 
-        # Loop through each colliding sprite, remove it, and add to the score.
-        for coin in coins_hit_list:
-            coin.remove_from_sprite_lists()
-            self.score += 1
-            arcade.play_sound(self.belt_sound)
+            # Loop through each colliding sprite, remove it, and add to the score.
+            for coin in coins_hit_list:
+                coin.remove_from_sprite_lists()
+                self.score += 1
+                arcade.play_sound(self.belt_sound)
 
-        bad_sprite_hit_list = arcade.check_for_collision_with_list(self.player_sprite, self.bad_sprite)
-        for bad_sprite in bad_sprite_hit_list:
-            bad_sprite.remove_from_sprite_lists()
-            self.score -= 1
-            arcade.play_sound(self.knifeslice)
+            bad_sprite_hit_list = arcade.check_for_collision_with_list(self.player_sprite, self.bad_sprite)
+            for bad_sprite in bad_sprite_hit_list:
+                bad_sprite.remove_from_sprite_lists()
+                self.score -= 1
+                arcade.play_sound(self.knifeslice)
+
 
 
 def main():
