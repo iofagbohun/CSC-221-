@@ -16,6 +16,8 @@ SPRITE_SCALING = 0.5
 DEFAULT_SCREEN_WIDTH = 800
 DEFAULT_SCREEN_HEIGHT = 600
 SCREEN_TITLE = "Sprite Move with Scrolling Screen Example"
+ROCK_COUNT = 10
+SPRITE_SCALING_ROCK = 0.3
 
 # How many pixels to keep as a minimum margin between the character
 # and the edge of the screen.
@@ -80,6 +82,14 @@ class MyGame(arcade.Window):
         self.player_sprite.center_x = 256
         self.player_sprite.center_y = 512
         self.player_list.append(self.player_sprite)
+
+        for i in range(ROCK_COUNT):
+            rock = arcade.Sprite("rock.png", SPRITE_SCALING_ROCK)
+            # position rocks
+            rock.center_x = random.randrange(DEFAULT_SCREEN_WIDTH)
+            rock.center_y = random.randrange(DEFAULT_SCREEN_HEIGHT)
+            # add to list
+            self.rock_list.append(rock)
 
         # -- Set up several columns and rows of walls
         for x in range(200, 900, 110):
@@ -160,6 +170,7 @@ class MyGame(arcade.Window):
         # Draw all the sprites.
         self.wall_list.draw()
         self.player_list.draw()
+        self.rock_list.draw()
 
 
         # Select the (unscrolled) camera for our GUI
