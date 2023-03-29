@@ -98,6 +98,12 @@ class MyGame(arcade.Window):
             wall.center_x = x
             wall.center_y = 450
             self.wall_list.append(wall)
+            # X-axis outside wall
+        for x in range(-100, 1200, 110):
+            wall = arcade.Sprite("elementStone032.png", SPRITE_SCALING)
+            wall.center_x = x
+            wall.center_y = 100
+            self.wall_list.append(wall)
         for y in range(300, 900, 80):
             wall = arcade.Sprite("elementExplosive016.png", SPRITE_SCALING)
             wall.center_x = 100
@@ -111,6 +117,11 @@ class MyGame(arcade.Window):
         for y in range(555, 900, 40):
             wall = arcade.Sprite("elementExplosive016.png", SPRITE_SCALING)
             wall.center_x = 900
+            wall.center_y = y
+            self.wall_list.append(wall)
+        for y in range(170, 900, 110):
+            wall = arcade.Sprite("elementStone041.png", SPRITE_SCALING)
+            wall.center_x = -140
             wall.center_y = y
             self.wall_list.append(wall)
 
