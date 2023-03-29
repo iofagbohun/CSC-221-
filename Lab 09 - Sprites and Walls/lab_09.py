@@ -77,14 +77,34 @@ class MyGame(arcade.Window):
         self.player_sprite.center_y = 512
         self.player_list.append(self.player_sprite)
 
-        # -- Set up several columns of walls
-        for x in range(200, 1650, 160):
+        # -- Set up several columns and rows of walls
+        for x in range(200, 900, 110):
             wall = arcade.Sprite("elementExplosive016.png", SPRITE_SCALING)
             wall.center_x = x
             wall.center_y = 300
             self.wall_list.append(wall)
+        for x in range(430, 700, 110):
+            wall = arcade.Sprite("elementExplosive016.png", SPRITE_SCALING)
+            wall.center_x = x
+            wall.center_y = 555
+            self.wall_list.append(wall)
+        for x in range(450, 750, 110):
+            wall = arcade.Sprite("elementExplosive016.png", SPRITE_SCALING)
+            wall.center_x = x
+            wall.center_y = 450
+            self.wall_list.append(wall)
+        for y in range(300, 900, 80):
+            wall = arcade.Sprite("elementExplosive016.png", SPRITE_SCALING)
+            wall.center_x = 200
+            wall.center_y = y
+            self.wall_list.append(wall)
+        for y in range(555, 900, 40):
+            wall = arcade.Sprite("elementExplosive016.png", SPRITE_SCALING)
+            wall.center_x = 900
+            wall.center_y = y
+            self.wall_list.append(wall)
 
-        self.physics_engine = arcade.PhysicsEngineSimple(self.player_sprite, self.wall_list)
+            self.physics_engine = arcade.PhysicsEngineSimple(self.player_sprite, self.wall_list)
 
         # Set the background color
         arcade.set_background_color(arcade.color.AMAZON)
