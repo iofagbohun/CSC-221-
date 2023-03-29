@@ -72,20 +72,17 @@ class MyGame(arcade.Window):
 
         # Set up the player
         self.player_sprite = arcade.Sprite("robot_greenDrive2.png",
-                                           scale=0.3)
+                                           scale=0.2)
         self.player_sprite.center_x = 256
         self.player_sprite.center_y = 512
         self.player_list.append(self.player_sprite)
 
         # -- Set up several columns of walls
-        for x in range(200, 1650, 210):
-            for y in range(0, 1600, 64):
-                # Randomly skip a box so the player can find a way through
-                if random.randrange(5) > 0:
-                    wall = arcade.Sprite(":resources:images/tiles/grassCenter.png", SPRITE_SCALING)
-                    wall.center_x = x
-                    wall.center_y = y
-                    self.wall_list.append(wall)
+        for x in range(200, 1650, 160):
+            wall = arcade.Sprite("elementExplosive016.png", SPRITE_SCALING)
+            wall.center_x = x
+            wall.center_y = 300
+            self.wall_list.append(wall)
 
         self.physics_engine = arcade.PhysicsEngineSimple(self.player_sprite, self.wall_list)
 
