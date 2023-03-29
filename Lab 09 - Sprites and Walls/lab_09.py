@@ -40,9 +40,11 @@ class MyGame(arcade.Window):
         # Sprite lists
         self.player_list = None
         self.wall_list = None
+        self.rock_list = None
 
         # Set up the player
         self.player_sprite = None
+        self.score = 0
 
         # Physics engine so we don't run into walls.
         self.physics_engine = None
@@ -69,6 +71,8 @@ class MyGame(arcade.Window):
         # Sprite lists
         self.player_list = arcade.SpriteList()
         self.wall_list = arcade.SpriteList()
+        self.rock_list = arcade.SpriteList()
+        self.score = 0
 
         # Set up the player
         self.player_sprite = arcade.Sprite("robot_greenDrive2.png",
