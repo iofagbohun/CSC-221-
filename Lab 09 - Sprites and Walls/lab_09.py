@@ -130,6 +130,11 @@ class MyGame(arcade.Window):
             wall.center_x = -140
             wall.center_y = y
             self.wall_list.append(wall)
+        for y in range(170, 1000, 110):
+            wall = arcade.Sprite("elementStone041.png", SPRITE_SCALING)
+            wall.center_x = 1150
+            wall.center_y = y
+            self.wall_list.append(wall)
 
             self.physics_engine = arcade.PhysicsEngineSimple(self.player_sprite, self.wall_list)
 
