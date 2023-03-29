@@ -83,6 +83,11 @@ class MyGame(arcade.Window):
             wall.center_x = x
             wall.center_y = 300
             self.wall_list.append(wall)
+        for x in range(600, 800, 110):
+            wall = arcade.Sprite("elementExplosive016.png", SPRITE_SCALING)
+            wall.center_x = x
+            wall.center_y = 800
+            self.wall_list.append(wall)
         for x in range(430, 700, 110):
             wall = arcade.Sprite("elementExplosive016.png", SPRITE_SCALING)
             wall.center_x = x
@@ -95,7 +100,12 @@ class MyGame(arcade.Window):
             self.wall_list.append(wall)
         for y in range(300, 900, 80):
             wall = arcade.Sprite("elementExplosive016.png", SPRITE_SCALING)
-            wall.center_x = 200
+            wall.center_x = 100
+            wall.center_y = y
+            self.wall_list.append(wall)
+        for y in range(705, 800, 40):
+            wall = arcade.Sprite("elementExplosive016.png", SPRITE_SCALING)
+            wall.center_x = 300
             wall.center_y = y
             self.wall_list.append(wall)
         for y in range(555, 900, 40):
