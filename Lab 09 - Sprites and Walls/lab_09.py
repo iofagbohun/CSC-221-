@@ -89,8 +89,8 @@ class MyGame(arcade.Window):
         for i in range(ROCK_COUNT):
             rock = arcade.Sprite("rock.png", SPRITE_SCALING_ROCK)
             # position rocks
-            rock.center_x = random.randrange(DEFAULT_SCREEN_WIDTH)
-            rock.center_y = random.randrange(DEFAULT_SCREEN_HEIGHT)
+            rock.center_x = random.randrange(-100, 1200)
+            rock.center_y = random.randrange(170, 1000)
             # add to list
             self.rock_list.append(rock)
 
