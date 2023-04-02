@@ -180,6 +180,10 @@ class MyGame(arcade.Window):
 
         self.camera_gui.use()
 
+        output = f"Score: {self.score}"
+        arcade.draw_text(text=output, start_x=10, start_y=50,
+                         color=arcade.color.WHITE, font_size=14)
+
 
         # Draw the GUI
         arcade.draw_rectangle_filled(self.width // 2,
@@ -245,7 +249,7 @@ class MyGame(arcade.Window):
 
         for rock in rock_hit_list:
             rock.remove_from_sprite_lists()
-            self.score -=1
+            self.score +=1
             arcade.play_sound(self.metalpot)
 
 
