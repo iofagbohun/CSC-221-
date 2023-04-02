@@ -16,7 +16,7 @@ SPRITE_SCALING = 0.5
 DEFAULT_SCREEN_WIDTH = 800
 DEFAULT_SCREEN_HEIGHT = 600
 SCREEN_TITLE = "Sprite Move with Scrolling Screen Example"
-ROCK_COUNT = 10
+ROCK_COUNT = 30
 SPRITE_SCALING_ROCK = 0.3
 
 # How many pixels to keep as a minimum margin between the character
@@ -56,6 +56,9 @@ class MyGame(arcade.Window):
         self.right_pressed = False
         self.up_pressed = False
         self.down_pressed = False
+
+        # loading sound
+        self.metalpot = arcade.load_sound("metalPot1.ogg")
 
 
         # Create the cameras. One for the GUI, one for the sprites.
@@ -236,6 +239,17 @@ class MyGame(arcade.Window):
         # Scroll the screen to the player
 
         self.scroll_to_player()
+
+        # checking for collision and loading sound
+        rock_hit_list = arcade.check_for_collision_with_list(self.player_sprite, self.rock_list)
+
+        for rock in rock_hit_list:
+            rock.remove_from_sprite_lists()
+            self.score -=1
+            arcade.play_sound(self.metalpot)
+
+
+
 
 
 
