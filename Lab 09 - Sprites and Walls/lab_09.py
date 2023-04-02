@@ -60,7 +60,6 @@ class MyGame(arcade.Window):
         # loading sound
         self.metalpot = arcade.load_sound("metalPot1.ogg")
 
-
         # Create the cameras. One for the GUI, one for the sprites.
 
         # We scroll the 'sprite world' but not the GUI.
@@ -68,7 +67,6 @@ class MyGame(arcade.Window):
         self.camera_sprites = arcade.Camera(DEFAULT_SCREEN_WIDTH, DEFAULT_SCREEN_HEIGHT)
 
         self.camera_gui = arcade.Camera(DEFAULT_SCREEN_WIDTH, DEFAULT_SCREEN_HEIGHT)
-
 
     def setup(self):
         """ Set up the game and initialize the variables. """
@@ -164,17 +162,14 @@ class MyGame(arcade.Window):
         # This command has to happen before we start drawing
         self.clear()
 
-
         # Select the camera we'll use to draw all our sprites
 
         self.camera_sprites.use()
-
 
         # Draw all the sprites.
         self.wall_list.draw()
         self.player_list.draw()
         self.rock_list.draw()
-
 
         # Select the (unscrolled) camera for our GUI
 
@@ -183,7 +178,6 @@ class MyGame(arcade.Window):
         output = f"Score: {self.score}"
         arcade.draw_text(text=output, start_x=10, start_y=50,
                          color=arcade.color.WHITE, font_size=14)
-
 
         # Draw the GUI
         arcade.draw_rectangle_filled(self.width // 2,
@@ -239,7 +233,6 @@ class MyGame(arcade.Window):
         # example though.)
         self.physics_engine.update()
 
-
         # Scroll the screen to the player
 
         self.scroll_to_player()
@@ -249,13 +242,8 @@ class MyGame(arcade.Window):
 
         for rock in rock_hit_list:
             rock.remove_from_sprite_lists()
-            self.score +=1
+            self.score += 1
             arcade.play_sound(self.metalpot)
-
-
-
-
-
 
     def scroll_to_player(self):
 
@@ -273,15 +261,11 @@ class MyGame(arcade.Window):
 
         """
 
-
-
         position = Vec2(self.player_sprite.center_x - self.width / 2,
 
                         self.player_sprite.center_y - self.height / 2)
 
         self.camera_sprites.move_to(position, CAMERA_SPEED)
-
-
 
     def on_resize(self, width, height):
 
@@ -296,7 +280,6 @@ class MyGame(arcade.Window):
         self.camera_sprites.resize(int(width), int(height))
 
         self.camera_gui.resize(int(width), int(height))
-
 
 
 def main():
