@@ -86,14 +86,7 @@ class MyGame(arcade.Window):
         self.player_sprite.center_y = 512
         self.player_list.append(self.player_sprite)
 
-        for i in range(ROCK_COUNT):
-            rock = arcade.Sprite("rock.png", SPRITE_SCALING_ROCK)
-            # position rocks
-            rock.center_x = random.randrange(-100, 1200)
-            rock.center_y = random.randrange(170, 1000)
-            # add to list
-            self.rock_list.append(rock)
-            #wall_hit_list = arcade.check_for_collision_with_list(rock, self.wall_list)
+
 
         # -- Set up several columns and rows of walls
         for x in range(200, 900, 110):
@@ -153,6 +146,23 @@ class MyGame(arcade.Window):
             wall.center_x = 1150
             wall.center_y = y
             self.wall_list.append(wall)
+
+            for i in range(ROCK_COUNT):
+                rock = arcade.Sprite("rock.png", SPRITE_SCALING_ROCK)
+                # position rocks
+
+                placed = False
+
+                while not placed:
+                    rock.center_x = random.randrange(-100, 1150)
+                    rock.center_y = random.randrange(120, 950)
+                    # add to list
+
+                    wall_hit_list = arcade.check_for_collision_with_list(rock, self.wall_list)
+                    if len(wall_hit_list) == 0:
+                        placed = True
+
+                self.rock_list.append(rock)
 
             self.physics_engine = arcade.PhysicsEngineSimple(self.player_sprite, self.wall_list)
 
