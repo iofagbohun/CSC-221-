@@ -154,8 +154,8 @@ class MyGame(arcade.Window):
                 placed = False
 
                 while not placed:
-                    rock.center_x = random.randrange(-100, 1150)
-                    rock.center_y = random.randrange(120, 950)
+                    rock.center_x = random.randrange(-100, 1100)
+                    rock.center_y = random.randrange(110, 920)
                     # add to list
 
                     wall_hit_list = arcade.check_for_collision_with_list(rock, self.wall_list)
