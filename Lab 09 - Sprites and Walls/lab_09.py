@@ -43,6 +43,7 @@ class MyGame(arcade.Window):
         self.player_list = None
         self.wall_list = None
         self.rock_list = None
+        self.wall_hit_list = None
 
         # Set up the player
         self.player_sprite = None
@@ -75,6 +76,7 @@ class MyGame(arcade.Window):
         self.player_list = arcade.SpriteList()
         self.wall_list = arcade.SpriteList()
         self.rock_list = arcade.SpriteList()
+        self.wall_hit_list = arcade.SpriteList()
         self.score = 0
 
         # Set up the player
@@ -91,6 +93,7 @@ class MyGame(arcade.Window):
             rock.center_y = random.randrange(170, 1000)
             # add to list
             self.rock_list.append(rock)
+            #wall_hit_list = arcade.check_for_collision_with_list(rock, self.wall_list)
 
         # -- Set up several columns and rows of walls
         for x in range(200, 900, 110):
