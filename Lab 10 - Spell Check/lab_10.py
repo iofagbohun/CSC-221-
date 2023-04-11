@@ -25,7 +25,7 @@ def main():
 
     my_file.close()
 
-    print( "There were", len(dictionary_list), "names in the file.")
+    print("---Linear Search---")
 
 
 main()
