@@ -1,31 +1,33 @@
+# Imports regular expressions
 import re
 
-# This function takes in a line of text and returns
-# a list of words in the line.
+# This function takes a line of text and returns
+# a list of words in the line
+
+
 def split_line(line):
-    return re.findall('[A-Za-z]+(?:\'[A-Za-z]+)?',line)
-
-def main():
-    """ Read in lines from a file """
-
-    # Open the file for reading, and store a pointer to it in the new
-    # variable "file"
-    my_file = open("dictionary.txt")
-
-    # Create an empty list to store our names
-    dictionary_list = []
-
-    # Loop through each line in the file like a list
-    for line in my_file:
-        # Remove any line feed, carriage returns or spaces at the end of the line
-        line = line.strip()
-
-        # Add the name to the list
-        dictionary_list.append(line)
-
-    my_file.close()
-
-    print("---Linear Search---")
+    split = re.findall('[A-Za-z]+(?:\'\"[A-Za-z]+)?', line)
+    return split
 
 
-main()
+# Opens the dictionary text file and adds each line to an array, then closes the file
+dictionary = open("dictionary.txt")
+dictionary_list = []
+for item in dictionary:
+    dictionary_list.append(split_line(item))
+print(dictionary_list)
+dictionary.close()
+
+print("---Linear Search---")
+
+# Opens the text for the first chapter of Alice in Wonderland
+chapter_1 = open("AliceInWonderland200.txt")
+
+# Breaks down the text by line
+for each_line in chapter_1:
+    # Breaks down each line to a single word
+    word_list = split_line(each_line)
+    # Checks each word against the dictionary array
+    for each_word in word_list:
+        current_word_list = 0
+
