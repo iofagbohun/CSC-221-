@@ -58,5 +58,8 @@ while lower_bound <= upper_bound and not found:
         upper_bound = middle_position -1
     else:
         found = True
+if found:
+    print("possibly misspelled word", middle_position)
+
 
 
