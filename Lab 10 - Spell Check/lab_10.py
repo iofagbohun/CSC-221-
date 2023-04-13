@@ -13,9 +13,7 @@ def split_line(line):
 # Opens the dictionary text file and adds each line to an array, then closes the file
 dictionary = open("dictionary.txt")
 dictionary_list = []
-lower_bound = 0
-upper_bound = len(dictionary_list)-1
-found = False
+
 for item in dictionary:
     item = item.strip() # strips off carriage returns
     dictionary_list.append(item)
@@ -49,19 +47,28 @@ chapter_1.close()
 print("--- Binary Search ---")
 
 chapter_1 = open("AliceInWonderland200.txt")
+for each_line in chapter_1:
+    line_num += 1
+    # Breaks down each line to a single word
+    word_list = split_line(each_line)
+    for each_word in word_list:
+        lower_bound = 0
+        upper_bound = len(dictionary_list) - 1
+        found = False
+        while lower_bound <= upper_bound and not found:
+            middle_position = (lower_bound + upper_bound) // 2
 
-while lower_bound <= upper_bound and not found:
-    middle_position = (lower_bound + upper_bound) // 2
+            # figure out if we need to move up or down
+            if dictionary_list[middle_position] < each_word.upper():
+                lower_bound = middle_position + 1
+            elif dictionary_list[middle_position] > each_word.upper():
+                upper_bound = middle_position -1
+            else:
+                found = True
+        if not found:
+                print("possibly misspelled word", each_word)
 
-    # figure out if we need to move up or down
-    if dictionary_list[middle_position] < word_list.upper:
-        lower_bound = middle_position + 1
-    elif dictionary_list[middle_position] > word_list.upper:
-        upper_bound = middle_position -1
-    else:
-        found = True
-if found:
-    print("possibly misspelled word", middle_position)
-print("here")
+chapter_1.close()
+
 
 
