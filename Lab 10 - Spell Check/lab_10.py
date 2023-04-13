@@ -48,18 +48,20 @@ chapter_1.close()
 
 print("--- Binary Search ---")
 
+chapter_1 = open("AliceInWonderland200.txt")
+
 while lower_bound <= upper_bound and not found:
     middle_position = (lower_bound + upper_bound) // 2
 
     # figure out if we need to move up or down
-    if dictionary_list[middle_position] < each_word.upper:
+    if dictionary_list[middle_position] < word_list.upper:
         lower_bound = middle_position + 1
-    elif dictionary_list [middle_position] > each_word.upper:
+    elif dictionary_list[middle_position] > word_list.upper:
         upper_bound = middle_position -1
     else:
         found = True
 if found:
     print("possibly misspelled word", middle_position)
-
+print("here")
 
 
