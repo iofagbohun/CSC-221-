@@ -1,6 +1,7 @@
 # Imports regular expressions
 import re
 
+
 # This function takes a line of text and returns
 # a list of words in the line
 
@@ -15,9 +16,9 @@ dictionary = open("dictionary.txt")
 dictionary_list = []
 
 for item in dictionary:
-    item = item.strip() # strips off carriage returns
+    item = item.strip()  # strips off carriage returns
     dictionary_list.append(item)
-#print(dictionary_list)
+# print(dictionary_list)
 dictionary.close()
 
 print("---Linear Search---")
@@ -33,13 +34,13 @@ for each_line in chapter_1:
     word_list = split_line(each_line)
     # Checks each word against the dictionary array
     for each_word in word_list:
-        i = 0 # initialize to zero
+        i = 0  # initialize to zero
         # check dictionary list comparing each word to the curry word being search for
         while i < len(dictionary_list) and dictionary_list[i] != each_word.upper():
             i += 1
 
-        if i==len(dictionary_list):
-            print(each_word,'possibly misspelled at line',line_num)
+        if i == len(dictionary_list):
+            print(each_word, 'possibly misspelled at line', line_num)
 
 # Closes the first chapter file
 chapter_1.close()
@@ -62,13 +63,10 @@ for each_line in chapter_1:
             if dictionary_list[middle_position] < each_word.upper():
                 lower_bound = middle_position + 1
             elif dictionary_list[middle_position] > each_word.upper():
-                upper_bound = middle_position -1
+                upper_bound = middle_position - 1
             else:
                 found = True
         if not found:
-                print("possibly misspelled word", each_word)
+            print(each_word, "possibly misspelled word at line", line_num)
 
 chapter_1.close()
-
-
-
