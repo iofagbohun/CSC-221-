@@ -91,6 +91,8 @@ class MyGame(arcade.Window):
                 self.grid[row][column - 1] = 1
             else:
                 self.grid[row][column] = 0
+                self.grid[row][column - 1] = 0
+                self.grid[row][column + 1] = 0
 
 
 
