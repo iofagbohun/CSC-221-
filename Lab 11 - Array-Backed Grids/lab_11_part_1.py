@@ -87,6 +87,8 @@ class MyGame(arcade.Window):
             # Flip the location between 1 and 0.
             if self.grid[row][column] == 0:
                 self.grid[row][column] = 1
+                self.grid[row][column + 1] = 1
+                self.grid[row][column - 1] = 1
             else:
                 self.grid[row][column] = 0
 
