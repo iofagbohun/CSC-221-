@@ -93,6 +93,8 @@ class MyGame(arcade.Window):
                 self.grid[row][column] = 0
 
 
+
+
 def main():
 
     window = MyGame(SCREEN_WIDTH, SCREEN_HEIGHT)
