@@ -11,6 +11,14 @@ SCREEN_HEIGHT = 600
 
 BULLET_SPEED = 5
 
+class Alien_sprite(arcade.Sprite):
+    def __init__(self, file, scale):
+        super().__init__(file, scale)
+
+    def update(self):
+        self.center_y -= 0.80
+        if self.center_y == 0:
+            self.center_y = SCREEN_HEIGHT
 
 class MyGame(arcade.Window):
     """ Main application class. """
@@ -57,7 +65,7 @@ class MyGame(arcade.Window):
 
             # Create the coin instance
             # Coin image from kenney.nl
-            alien_ship = arcade.Sprite("shipBlue_manned.png", SPRITE_SCALING_COIN)
+            alien_ship = Alien_sprite("shipBlue_manned.png", SPRITE_SCALING_COIN)
 
             # Position the coin
             alien_ship.center_x = random.randrange(SCREEN_WIDTH)
