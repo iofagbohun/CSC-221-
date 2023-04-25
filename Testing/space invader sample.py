@@ -18,7 +18,7 @@ class MyGame(arcade.Window):
     def __init__(self):
         """ Initializer """
         # Call the parent class initializer
-        super().__init__(SCREEN_WIDTH, SCREEN_HEIGHT, "Sprites and Bullets Demo")
+        super().__init__(SCREEN_WIDTH, SCREEN_HEIGHT, "Space Invader")
 
         # Variables that will hold sprite lists
         self.player_list = None
@@ -47,7 +47,7 @@ class MyGame(arcade.Window):
         self.score = 0
 
         # All images are from kenney.nl
-        self.player_sprite = arcade.Sprite("character_maleAdventurer_run1.png", SPRITE_SCALING_PLAYER)
+        self.player_sprite = arcade.Sprite("playerShip1_blue.png", SPRITE_SCALING_PLAYER)
         self.player_sprite.center_x = 50
         self.player_sprite.center_y = 70
         self.player_list.append(self.player_sprite)
