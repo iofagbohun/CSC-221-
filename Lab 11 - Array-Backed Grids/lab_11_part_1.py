@@ -101,6 +101,7 @@ class MyGame(arcade.Window):
 
 
 
+
 def main():
 
     window = MyGame(SCREEN_WIDTH, SCREEN_HEIGHT)
