@@ -4,7 +4,7 @@ import arcade
 SPRITE_SCALING_PLAYER = 0.5
 SPRITE_SCALING_COIN = 0.2
 SPRITE_SCALING_LASER = 0.8
-COIN_COUNT = 50
+AlIEN_COUNT = 10
 
 SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 600
@@ -53,7 +53,7 @@ class MyGame(arcade.Window):
         self.player_list.append(self.player_sprite)
 
         # Create the coins
-        for i in range(COIN_COUNT):
+        for i in range(AlIEN_COUNT):
 
             # Create the coin instance
             # Coin image from kenney.nl
@@ -106,6 +106,7 @@ class MyGame(arcade.Window):
         # Position the bullet
         bullet.center_x = self.player_sprite.center_x
         bullet.bottom = self.player_sprite.top
+        bullet.change_y = BULLET_SPEED
 
         # Add the bullet to the appropriate lists
         self.bullet_list.append(bullet)
