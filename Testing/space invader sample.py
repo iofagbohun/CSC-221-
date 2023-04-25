@@ -46,7 +46,7 @@ class MyGame(arcade.Window):
         # Set up the player
         self.score = 0
 
-        # Image from kenney.nl
+        # All images are from kenney.nl
         self.player_sprite = arcade.Sprite("character_maleAdventurer_run1.png", SPRITE_SCALING_PLAYER)
         self.player_sprite.center_x = 50
         self.player_sprite.center_y = 70
@@ -57,17 +57,17 @@ class MyGame(arcade.Window):
 
             # Create the coin instance
             # Coin image from kenney.nl
-            coin = arcade.Sprite("shipBlue_manned.png", SPRITE_SCALING_COIN)
+            alien_ship = arcade.Sprite("shipBlue_manned.png", SPRITE_SCALING_COIN)
 
             # Position the coin
-            coin.center_x = random.randrange(SCREEN_WIDTH)
-            coin.center_y = random.randrange(120, SCREEN_HEIGHT)
+            alien_ship.center_x = random.randrange(SCREEN_WIDTH)
+            alien_ship.center_y = random.randrange(120, SCREEN_HEIGHT)
 
             # Add the coin to the lists
-            self.coin_list.append(coin)
+            self.coin_list.append(alien_ship)
 
         # Set the background color
-        arcade.set_background_color(arcade.color.AMAZON)
+        arcade.set_background_color(arcade.color.BLACK)
 
     def on_draw(self):
         """
