@@ -40,6 +40,7 @@ class MyGame(arcade.Window):
         self.rock_list = None
         self.wall_hit_list = None
         self.enemy_player = None
+        self.enemy_list = None
         self.enemy_hit_list = None
 
         # Set up the player
