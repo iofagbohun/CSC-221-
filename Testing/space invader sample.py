@@ -4,7 +4,7 @@ import arcade
 SPRITE_SCALING_PLAYER = 0.5
 SPRITE_SCALING_COIN = 0.2
 SPRITE_SCALING_LASER = 0.8
-AlIEN_COUNT = 10
+AlIEN_COUNT = 1
 
 SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 600
@@ -16,7 +16,7 @@ class Alien_sprite(arcade.Sprite):
         super().__init__(file, scale)
 
     def update(self):
-        self.center_y -= 0.80
+        self.center_y -= 1
         if self.center_y == 0:
             self.center_y = SCREEN_HEIGHT
 
@@ -77,6 +77,7 @@ class MyGame(arcade.Window):
         # Set the background color
         arcade.set_background_color(arcade.color.BLACK)
 
+
     def on_draw(self):
         """
         Render the screen.
@@ -92,6 +93,9 @@ class MyGame(arcade.Window):
 
         # Render the text
         arcade.draw_text(f"Score: {self.score}", 10, 20, arcade.color.WHITE, 14)
+
+        if len(self.coin_list) == 0:
+            arcade.draw_text("YOU WIN", 200, 300, arcade.color.BLUE, 75)
 
     def on_mouse_motion(self, x, y, dx, dy):
         """
