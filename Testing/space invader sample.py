@@ -5,12 +5,21 @@ SPRITE_SCALING_PLAYER = 0.5
 SPRITE_SCALING_COIN = 0.2
 SPRITE_SCALING_LASER = 0.8
 AlIEN_COUNT = 25
+METEOR_COUNT = 8
 
 SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 600
 
 BULLET_SPEED = 5
 
+class Meteor_moving(arcade.Sprite):
+    def __init__(self, file, scale):
+        super().__init__(file, scale)
+
+    def update(self):
+        self.center_y -= 1
+        if self.center_y == 0:
+            self.center_y = SCREEN_HEIGHT
 
 class Alien_sprite(arcade.Sprite):
     def __init__(self, file, scale):
@@ -34,6 +43,7 @@ class MyGame(arcade.Window):
         self.player_list = None
         self.alien_list = None
         self.bullet_list = None
+        self.meteor_list = None
 
         # Set up the player info
         self.player_sprite = None
@@ -54,6 +64,7 @@ class MyGame(arcade.Window):
         self.player_list = arcade.SpriteList()
         self.alien_list = arcade.SpriteList()
         self.bullet_list = arcade.SpriteList()
+        self.meteor_list = arcade.SpriteList()
 
         # Set up the player
         self.score = 0
@@ -64,10 +75,21 @@ class MyGame(arcade.Window):
         self.player_sprite.center_y = 70
         self.player_list.append(self.player_sprite)
 
+        # creating meteor # image from kenny.nl
+        # create instance of METEORS
+        for i in range(METEOR_COUNT):
+            meteor = Meteor_moving("meteorBrown_big1.png", scale=0.5)
+
+            meteor.center_x = random.randrange(SCREEN_WIDTH)
+            meteor.center_y = random.randrange(SCREEN_HEIGHT)
+
+            self.meteor_list.append(meteor)
+
         # Create the aliens
+        # Create the aliens instance
+        # alien image from kenney.nl
         for i in range(AlIEN_COUNT):
-            # Create the aliens instance
-            # alien image from kenney.nl
+
             alien_ship = Alien_sprite("shipBlue_manned.png", SPRITE_SCALING_COIN)
 
             # Position the aliens
@@ -89,6 +111,7 @@ class MyGame(arcade.Window):
         self.alien_list.draw()
         self.bullet_list.draw()
         self.player_list.draw()
+        self.meteor_list.draw()
 
         # Render the text
         arcade.draw_text(f"Score: {self.score}", 10, 20, arcade.color.WHITE, 14)
@@ -122,6 +145,7 @@ class MyGame(arcade.Window):
         # Call update on all sprites
         self.alien_list.update()
         self.bullet_list.update()
+        self.meteor_list.update()
 
         # Loop through each bullet
         for bullet in self.bullet_list:
@@ -143,12 +167,13 @@ class MyGame(arcade.Window):
             if bullet.bottom > SCREEN_HEIGHT:
                 bullet.remove_from_sprite_lists()
 
-# when collide with aliens, game over
-       # alien_sprite_hit_list = arcade.check_for_collision_with_list(self.player_sprite, self.alien_list)
-       # for self.alien_list in alien_sprite_hit_list:
-        #    self.alien_list.remove_from_sprite_lists()
-         #   if len(self.alien_list) < 0:
-          #      print("YOU HAVE crashed into an alien ship, GAME OVER")
+    # when collide with meteor, game over
+        meteor_sprite_hit_list = arcade.check_for_collision_with_list(self.player_sprite, self.meteor_list)
+        for self.player_sprite in meteor_sprite_hit_list:
+            if self.player_sprite and meteor_sprite_hit_list == 0:
+                print("you have crashed into a meteor, GAME OVER")
+
+
 
 
 def main():
