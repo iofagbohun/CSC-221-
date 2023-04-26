@@ -44,6 +44,7 @@ class MyGame(arcade.Window):
         self.alien_list = None
         self.bullet_list = None
         self.meteor_list = None
+        self.game_over = False
 
         # Set up the player info
         self.player_sprite = None
@@ -118,6 +119,8 @@ class MyGame(arcade.Window):
 
         if len(self.alien_list) == 0:
             arcade.draw_text("YOU WIN", 200, 300, arcade.color.BLUE, 75)
+        elif self.game_over:
+            arcade.draw_text("GAME OVER", 200, 300, arcade.color.RED, 75)
 
     def on_mouse_motion(self, x, y, dx, dy):
         self.player_sprite.center_x = x
@@ -142,36 +145,42 @@ class MyGame(arcade.Window):
 
     def update(self, delta_time):
 
-        # Call update on all sprites
-        self.alien_list.update()
-        self.bullet_list.update()
-        self.meteor_list.update()
+        if not self.game_over:
 
-        # Loop through each bullet
-        for bullet in self.bullet_list:
+            # Call update on all sprites
+            self.alien_list.update()
+            self.bullet_list.update()
+            self.meteor_list.update()
 
-            # Check the bullet to see if it hit a alien
-            hit_list = arcade.check_for_collision_with_list(bullet, self.alien_list)
+            # Loop through each bullet
+            for bullet in self.bullet_list:
 
-            # If it did, get rid of the bullet
-            if len(hit_list) > 0:
-                bullet.remove_from_sprite_lists()
+                # Check the bullet to see if it hit a alien
+                hit_list = arcade.check_for_collision_with_list(bullet, self.alien_list)
 
-            # For every alien we hit, add to 1 to the score
-            for alien in hit_list:
-                alien.remove_from_sprite_lists()
-                self.score += 1
-                arcade.play_sound(self.laser_sound)
+                # If it did, get rid of the bullet
+                if len(hit_list) > 0:
+                    bullet.remove_from_sprite_lists()
 
-            # If the bullet flies off-screen, remove it.
-            if bullet.bottom > SCREEN_HEIGHT:
-                bullet.remove_from_sprite_lists()
+                # For every alien we hit, add to 1 to the score
+                for alien in hit_list:
+                    alien.remove_from_sprite_lists()
+                    self.score += 1
+                    arcade.play_sound(self.laser_sound)
 
-    # when collide with meteor, game over
-        meteor_sprite_hit_list = arcade.check_for_collision_with_list(self.player_sprite, self.meteor_list)
-        for self.player_sprite in meteor_sprite_hit_list:
-            if self.player_sprite and meteor_sprite_hit_list == 0:
-                print("you have crashed into a meteor, GAME OVER")
+                # If the bullet flies off-screen, remove it.
+                if bullet.bottom > SCREEN_HEIGHT:
+                    bullet.remove_from_sprite_lists()
+
+        # when collide with meteor, game over
+            meteor_sprite_hit_list = arcade.check_for_collision_with_list(self.player_sprite, self.meteor_list)
+            if len(meteor_sprite_hit_list) > 0:
+                self.game_over = True
+
+
+            #for self.player_sprite in meteor_sprite_hit_list:
+            #    if self.player_sprite and meteor_sprite_hit_list == 0:
+            #        print("you have crashed into a meteor, GAME OVER")
 
 
 
