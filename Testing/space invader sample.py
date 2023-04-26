@@ -4,7 +4,7 @@ import arcade
 SPRITE_SCALING_PLAYER = 0.5
 SPRITE_SCALING_COIN = 0.2
 SPRITE_SCALING_LASER = 0.8
-AlIEN_COUNT = 1
+AlIEN_COUNT = 25
 
 SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 600
@@ -81,9 +81,6 @@ class MyGame(arcade.Window):
         arcade.set_background_color(arcade.color.BLACK)
 
     def on_draw(self):
-        """
-        Render the screen.
-        """
 
         # This command has to happen before we start drawing
         arcade.start_render()
@@ -146,7 +143,7 @@ class MyGame(arcade.Window):
             if bullet.bottom > SCREEN_HEIGHT:
                 bullet.remove_from_sprite_lists()
 
-
+# when collide with aliens, game over
        # alien_sprite_hit_list = arcade.check_for_collision_with_list(self.player_sprite, self.alien_list)
        # for self.alien_list in alien_sprite_hit_list:
         #    self.alien_list.remove_from_sprite_lists()
