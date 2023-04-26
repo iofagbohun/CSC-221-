@@ -106,6 +106,8 @@ class MyGame(arcade.Window):
         # Create a bullet
         bullet = arcade.Sprite("laserBlue01.png", SPRITE_SCALING_LASER)
 
+        arcade.play_sound(self.laser_sound)
+
         # The image points to the right, and we want it to point up. So
         # rotate it.
         bullet.angle = 360
@@ -129,8 +131,6 @@ class MyGame(arcade.Window):
 
             # Check the bullet to see if it hit a alien
             hit_list = arcade.check_for_collision_with_list(bullet, self.alien_list)
-            for alien in hit_list:
-                arcade.play_sound(self.laser_sound)
 
             # If it did, get rid of the bullet
             if len(hit_list) > 0:
@@ -140,10 +140,12 @@ class MyGame(arcade.Window):
             for alien in hit_list:
                 alien.remove_from_sprite_lists()
                 self.score += 1
+                arcade.play_sound(self.laser_sound)
 
             # If the bullet flies off-screen, remove it.
             if bullet.bottom > SCREEN_HEIGHT:
                 bullet.remove_from_sprite_lists()
+
 
        # alien_sprite_hit_list = arcade.check_for_collision_with_list(self.player_sprite, self.alien_list)
        # for self.alien_list in alien_sprite_hit_list:
