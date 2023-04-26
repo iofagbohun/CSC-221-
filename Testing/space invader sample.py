@@ -11,6 +11,7 @@ SCREEN_HEIGHT = 600
 
 BULLET_SPEED = 5
 
+
 class Alien_sprite(arcade.Sprite):
     def __init__(self, file, scale):
         super().__init__(file, scale)
@@ -19,6 +20,7 @@ class Alien_sprite(arcade.Sprite):
         self.center_y -= 1
         if self.center_y == 0:
             self.center_y = SCREEN_HEIGHT
+
 
 class MyGame(arcade.Window):
     """ Main application class. """
@@ -30,7 +32,7 @@ class MyGame(arcade.Window):
 
         # Variables that will hold sprite lists
         self.player_list = None
-        self.coin_list = None
+        self.alien_list = None
         self.bullet_list = None
 
         # Set up the player info
@@ -48,7 +50,7 @@ class MyGame(arcade.Window):
 
         # Sprite lists
         self.player_list = arcade.SpriteList()
-        self.coin_list = arcade.SpriteList()
+        self.alien_list = arcade.SpriteList()
         self.bullet_list = arcade.SpriteList()
 
         # Set up the player
@@ -60,23 +62,21 @@ class MyGame(arcade.Window):
         self.player_sprite.center_y = 70
         self.player_list.append(self.player_sprite)
 
-        # Create the coins
+        # Create the aliens
         for i in range(AlIEN_COUNT):
-
-            # Create the coin instance
-            # Coin image from kenney.nl
+            # Create the aliens instance
+            # alien image from kenney.nl
             alien_ship = Alien_sprite("shipBlue_manned.png", SPRITE_SCALING_COIN)
 
-            # Position the coin
+            # Position the aliens
             alien_ship.center_x = random.randrange(SCREEN_WIDTH)
             alien_ship.center_y = random.randrange(120, SCREEN_HEIGHT)
 
-            # Add the coin to the lists
-            self.coin_list.append(alien_ship)
+            # Add the aliens to the lists
+            self.alien_list.append(alien_ship)
 
         # Set the background color
         arcade.set_background_color(arcade.color.BLACK)
-
 
     def on_draw(self):
         """
@@ -87,27 +87,20 @@ class MyGame(arcade.Window):
         arcade.start_render()
 
         # Draw all the sprites.
-        self.coin_list.draw()
+        self.alien_list.draw()
         self.bullet_list.draw()
         self.player_list.draw()
 
         # Render the text
         arcade.draw_text(f"Score: {self.score}", 10, 20, arcade.color.WHITE, 14)
 
-        if len(self.coin_list) == 0:
+        if len(self.alien_list) == 0:
             arcade.draw_text("YOU WIN", 200, 300, arcade.color.BLUE, 75)
 
     def on_mouse_motion(self, x, y, dx, dy):
-        """
-        Called whenever the mouse moves.
-        """
         self.player_sprite.center_x = x
 
     def on_mouse_press(self, x, y, button, modifiers):
-        """
-        Called whenever the mouse button is clicked.
-        """
-
         # Create a bullet
         bullet = arcade.Sprite("laserBlue01.png", SPRITE_SCALING_LASER)
 
@@ -124,25 +117,24 @@ class MyGame(arcade.Window):
         self.bullet_list.append(bullet)
 
     def update(self, delta_time):
-        """ Movement and game logic """
 
         # Call update on all sprites
-        self.coin_list.update()
+        self.alien_list.update()
         self.bullet_list.update()
 
         # Loop through each bullet
         for bullet in self.bullet_list:
 
-            # Check this bullet to see if it hit a coin
-            hit_list = arcade.check_for_collision_with_list(bullet, self.coin_list)
+            # Check this bullet to see if it hit a alien
+            hit_list = arcade.check_for_collision_with_list(bullet, self.alien_list)
 
             # If it did, get rid of the bullet
             if len(hit_list) > 0:
                 bullet.remove_from_sprite_lists()
 
-            # For every coin we hit, add to the score and remove the coin
-            for coin in hit_list:
-                coin.remove_from_sprite_lists()
+            # For every alien we hit, add to 1 to the score
+            for alien in hit_list:
+                alien.remove_from_sprite_lists()
                 self.score += 1
 
             # If the bullet flies off-screen, remove it.
