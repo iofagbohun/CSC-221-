@@ -39,6 +39,8 @@ class MyGame(arcade.Window):
         self.player_sprite = None
         self.score = 0
 
+        self.laser_sound = arcade.load_sound("laserLarge_003.ogg")
+
         # Don't show the mouse cursor
         self.set_mouse_visible(False)
 
@@ -125,8 +127,10 @@ class MyGame(arcade.Window):
         # Loop through each bullet
         for bullet in self.bullet_list:
 
-            # Check this bullet to see if it hit a alien
+            # Check the bullet to see if it hit a alien
             hit_list = arcade.check_for_collision_with_list(bullet, self.alien_list)
+            for alien in hit_list:
+                arcade.play_sound(self.laser_sound)
 
             # If it did, get rid of the bullet
             if len(hit_list) > 0:
@@ -140,6 +144,12 @@ class MyGame(arcade.Window):
             # If the bullet flies off-screen, remove it.
             if bullet.bottom > SCREEN_HEIGHT:
                 bullet.remove_from_sprite_lists()
+
+       # alien_sprite_hit_list = arcade.check_for_collision_with_list(self.player_sprite, self.alien_list)
+       # for self.alien_list in alien_sprite_hit_list:
+        #    self.alien_list.remove_from_sprite_lists()
+         #   if len(self.alien_list) < 0:
+          #      print("YOU HAVE crashed into an alien ship, GAME OVER")
 
 
 def main():
