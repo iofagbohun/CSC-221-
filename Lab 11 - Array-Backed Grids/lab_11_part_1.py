@@ -45,6 +45,7 @@ class MyGame(arcade.Window):
 
         arcade.set_background_color(arcade.color.BLACK)
 
+
     def on_draw(self):
         """
         Render the screen.
@@ -83,6 +84,8 @@ class MyGame(arcade.Window):
         # Make sure we are on-grid. It is possible to click in the upper right
         # corner in the margin and go to a grid location that doesn't exist
         if row < ROW_COUNT and column < COLUMN_COUNT:
+
+
 
             # Flip the location between 1 and 0.
             if self.grid[row][column] == 0:
