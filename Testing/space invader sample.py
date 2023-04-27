@@ -44,7 +44,9 @@ class MyGame(arcade.Window):
         self.alien_list = None
         self.bullet_list = None
         self.meteor_list = None
+        self.alien_ship2_list = None
         self.game_over = False
+
 
         # Set up the player info
         self.player_sprite = None
@@ -66,6 +68,7 @@ class MyGame(arcade.Window):
         self.alien_list = arcade.SpriteList()
         self.bullet_list = arcade.SpriteList()
         self.meteor_list = arcade.SpriteList()
+        self.alien_ship2_list = arcade.SpriteList()
 
         # Set up the player
         self.score = 0
@@ -85,6 +88,16 @@ class MyGame(arcade.Window):
             meteor.center_y = random.randrange(SCREEN_HEIGHT)
 
             self.meteor_list.append(meteor)
+
+        for i in range(AlIEN_COUNT):
+            alien_ship2 = arcade.Sprite("shipYellow_manned.png", scale=0.5)
+
+            alien_ship2.center_x = random.randrange(SCREEN_WIDTH)
+            alien_ship2.center_y = random.randrange(SCREEN_HEIGHT)
+
+            self.alien_ship2_list.append(alien_ship2)
+
+
 
         # Create the aliens
         # Create the aliens instance

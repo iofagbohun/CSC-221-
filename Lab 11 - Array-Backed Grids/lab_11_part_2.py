@@ -36,6 +36,7 @@ class MyGame(arcade.Window):
         # Create a 2 dimensional array. A two dimensional
         # array is simply a list of lists.
         self.grid = []
+        self.selected = 0
         for row in range(ROW_COUNT):
             # Add an empty array that will hold each cell
             # in this row
@@ -97,17 +98,26 @@ class MyGame(arcade.Window):
         if 0 <= row + 1 < ROW_COUNT and 0 <= column < COLUMN_COUNT:  # check for valid
             self.grid[row + 1][column] = 1 - self.grid[row + 1][column]
         #column + 1
-        if 0 <= row + 1 < ROW_COUNT and 0 <= column < COLUMN_COUNT:  # check for valid
-            self.grid[row][column + 1] = 1 - self.grid[row][column + 1]
-        #column - 1
-        if 0 <= row + 1 < ROW_COUNT and 0 <= column < COLUMN_COUNT:  # check for valid
+        if 0 <= row < ROW_COUNT and 0 <= column - 1 < COLUMN_COUNT:  # check for valid
             self.grid[row][column - 1] = 1 - self.grid[row][column - 1]
+        #column - 1
+        if 0 <= row < ROW_COUNT and 0 <= column + 1 < COLUMN_COUNT:  # check for valid
+            self.grid[row][column + 1] = 1 - self.grid[row][column + 1]
 
-        selected = self.grid[row][column]
-        for i in range(row):
-            for j in range(column):
-                selected = selected + 1
-                print("total of"  "cells selected")
+        self.selected = 0
+        for i in range(ROW_COUNT):
+            for j in range(COLUMN_COUNT):
+                if self.grid[i][j] == 1:
+                    self.selected = self.selected + 1
+        print("total of", self.selected, "cells selected")
+
+        self.selected = 0
+        for i in range(ROW_COUNT):
+            for j in range(COLUMN_COUNT):
+                if self.grid[i][j] == 1:
+                    self.selected = self.selected + 1
+        print("total of", self.selected, "cells selected")
+
 
 
 
