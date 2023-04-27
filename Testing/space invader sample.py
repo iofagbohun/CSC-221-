@@ -183,14 +183,21 @@ class MyGame(arcade.Window):
 
                 # Check the bullet to see if it hit a alien
                 hit_list = arcade.check_for_collision_with_list(bullet, self.alien_list)
+                hit_list2 = arcade.check_for_collision_with_list(bullet, self.alien_ship2_list)
 
                 # If it did, get rid of the bullet
                 if len(hit_list) > 0:
+                    bullet.remove_from_sprite_lists()
+                if len(hit_list2) > 0:
                     bullet.remove_from_sprite_lists()
 
                 # For every alien we hit, add to 1 to the score
                 for alien in hit_list:
                     alien.remove_from_sprite_lists()
+                    self.score += 1
+                    arcade.play_sound(self.laser_sound)
+                for alien2 in hit_list2:
+                    alien2.remove_from_sprite_lists()
                     self.score += 1
                     arcade.play_sound(self.laser_sound)
 
