@@ -2,7 +2,7 @@
 Array Backed Grid
 
 Show how to use a two-dimensional list/array to back the display of a
-grid on-screen.
+grid on-screen..
 """
 import arcade
 

@@ -36,12 +36,17 @@ class MyGame(arcade.Window):
         # Create a 2 dimensional array. A two dimensional
         # array is simply a list of lists.
         self.grid = []
+        self.row_counter = []
+        self.ir = 0
         self.selected = 0
+        self.continuous_count = 0
         for row in range(ROW_COUNT):
             # Add an empty array that will hold each cell
             # in this row
+            self.row_counter.append([])
             self.grid.append([])
             for column in range(COLUMN_COUNT):
+                self.row_counter[row].append(0)
                 self.grid[row].append(0)  # Append a cell
 
         arcade.set_background_color(arcade.color.BLACK)
@@ -109,14 +114,38 @@ class MyGame(arcade.Window):
             for j in range(COLUMN_COUNT):
                 if self.grid[i][j] == 1:
                     self.selected = self.selected + 1
-        print("total of", self.selected, "cells selected")
+        print("Total of", self.selected, "cells selected")
 
         self.selected = 0
         for i in range(ROW_COUNT):
+            row_counter = 0
             for j in range(COLUMN_COUNT):
+                if self.grid[i] == 1:
+                    self.selected = self.selected + 1
+                    row_counter = self.row_count[row][column]
+        print("Row has", self.selected, "cells selected")
+
+        self.selected = 0
+        for i in range(COLUMN_COUNT):
+            for j in range(ROW_COUNT):
                 if self.grid[i][j] == 1:
                     self.selected = self.selected + 1
-        print("total of", self.selected, "cells selected")
+        print("column", self.selected, "cells selected")
+
+        if self.grid ==1:
+            self.continuous_count += 1
+        else:
+            if self.continuous_count ==0:
+                self.continuous_count <= 0
+
+
+
+
+
+
+
+
+
 
 
 
