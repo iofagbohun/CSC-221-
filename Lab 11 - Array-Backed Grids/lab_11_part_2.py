@@ -45,6 +45,7 @@ class MyGame(arcade.Window):
 
         arcade.set_background_color(arcade.color.BLACK)
 
+
     def on_draw(self):
         """
         Render the screen.
@@ -80,26 +81,40 @@ class MyGame(arcade.Window):
 
         print(f"Click coordinates: ({x}, {y}). Grid coordinates: ({row}, {column})")
 
+
+
         # Make sure we are on-grid. It is possible to click in the upper right
         # corner in the margin and go to a grid location that doesn't exist
-        if row < ROW_COUNT and column < COLUMN_COUNT:
 
-            # Flip the location between 1 and 0.
-            if self.grid[row][column] == 0:
-                self.grid[row][column] = 1
-                self.grid[row][column + 1] = 1
-                self.grid[row][column - 1] = 1
-                self.grid[row + 1][column] = 1
-                self.grid[row - 1][column] = 1
-            else:
-                self.grid[row][column] = 0
-                self.grid[row][column - 1] = 0
-                self.grid[row][column + 1] = 0
-                self.grid[row + 1][column] = 0
-                self.grid[row - 1][column] = 0
-        for i in row:
-            i = ROW_COUNT
-            print("total of ", i, "cells selected")
+
+        # is valid
+        self.grid[row][column] = 1 - self.grid[row][column]
+
+        # row-1, column
+        if 0 <= row - 1 < ROW_COUNT and 0 <= column < COLUMN_COUNT: # check for valid
+            self.grid[row - 1][column] = 1 - self.grid[row - 1][column]
+        #row +1
+        if 0 <= row + 1 < ROW_COUNT and 0 <= column < COLUMN_COUNT:  # check for valid
+            self.grid[row + 1][column] = 1 - self.grid[row + 1][column]
+        #column + 1
+        if 0 <= row + 1 < ROW_COUNT and 0 <= column < COLUMN_COUNT:  # check for valid
+            self.grid[row][column + 1] = 1 - self.grid[row][column + 1]
+        #column - 1
+        if 0 <= row + 1 < ROW_COUNT and 0 <= column < COLUMN_COUNT:  # check for valid
+            self.grid[row][column - 1] = 1 - self.grid[row][column - 1]
+
+        selected = self.grid[row][column]
+        for i in range(row):
+            for j in range(column):
+                selected = selected + 1
+                print("total of"  "cells selected")
+
+
+
+
+
+
+
 
 
 
