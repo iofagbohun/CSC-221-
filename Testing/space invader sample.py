@@ -5,6 +5,7 @@ SPRITE_SCALING_PLAYER = 0.5
 SPRITE_SCALING_COIN = 0.2
 SPRITE_SCALING_LASER = 0.8
 AlIEN_COUNT = 25
+ALIEN_COUNT2 = 15
 METEOR_COUNT = 8
 
 SCREEN_WIDTH = 800
@@ -30,6 +31,14 @@ class Alien_sprite(arcade.Sprite):
         if self.center_y == 0:
             self.center_y = SCREEN_HEIGHT
 
+class Alien2_ship2(arcade.Sprite):
+    def __init__(self, file, scale):
+        super().__init__(file, scale)
+
+    def update(self):
+        self.center_y -= 1
+        if self.center_y == 0:
+            self.center_y = SCREEN_HEIGHT
 
 class MyGame(arcade.Window):
     """ Main application class. """
@@ -89,11 +98,12 @@ class MyGame(arcade.Window):
 
             self.meteor_list.append(meteor)
 
-        for i in range(AlIEN_COUNT):
-            alien_ship2 = arcade.Sprite("shipYellow_manned.png", scale=0.5)
+        for i in range(ALIEN_COUNT2):
+            alien_ship2 = Alien2_ship2("shipYellow_manned.png", scale=0.4)
 
             alien_ship2.center_x = random.randrange(SCREEN_WIDTH)
             alien_ship2.center_y = random.randrange(SCREEN_HEIGHT)
+
 
             self.alien_ship2_list.append(alien_ship2)
 
@@ -126,6 +136,7 @@ class MyGame(arcade.Window):
         self.bullet_list.draw()
         self.player_list.draw()
         self.meteor_list.draw()
+        self.alien_ship2_list.draw()
 
         # Render the text
         arcade.draw_text(f"Score: {self.score}", 10, 20, arcade.color.WHITE, 14)
@@ -133,7 +144,8 @@ class MyGame(arcade.Window):
         if len(self.alien_list) == 0:
             arcade.draw_text("YOU WIN", 200, 300, arcade.color.BLUE, 75)
         elif self.game_over:
-            arcade.draw_text("GAME OVER", 200, 300, arcade.color.RED, 75)
+            arcade.draw_text("GAME OVER", 100, 300, arcade.color.RED, 75)
+
 
     def on_mouse_motion(self, x, y, dx, dy):
         self.player_sprite.center_x = x
@@ -164,6 +176,7 @@ class MyGame(arcade.Window):
             self.alien_list.update()
             self.bullet_list.update()
             self.meteor_list.update()
+            self.alien_ship2_list.update()
 
             # Loop through each bullet
             for bullet in self.bullet_list:
@@ -191,9 +204,7 @@ class MyGame(arcade.Window):
                 self.game_over = True
 
 
-            #for self.player_sprite in meteor_sprite_hit_list:
-            #    if self.player_sprite and meteor_sprite_hit_list == 0:
-            #        print("you have crashed into a meteor, GAME OVER")
+
 
 
 
