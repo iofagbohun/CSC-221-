@@ -5,7 +5,6 @@ SPRITE_SCALING_PLAYER = 0.5
 SPRITE_SCALING_COIN = 0.2
 SPRITE_SCALING_LASER = 0.8
 AlIEN_COUNT = 25
-ALIEN_COUNT2 = 15
 METEOR_COUNT = 8
 
 SCREEN_WIDTH = 800
@@ -30,8 +29,7 @@ class Alien_sprite(arcade.Sprite):
         self.center_y -= 1
         if self.center_y == 0:
             self.center_y = SCREEN_HEIGHT
-
-class Alien2_ship2(arcade.Sprite):
+class Alien2_ship2 (arcade.Sprite):
     def __init__(self, file, scale):
         super().__init__(file, scale)
 
@@ -40,18 +38,39 @@ class Alien2_ship2(arcade.Sprite):
         if self.center_y == 0:
             self.center_y = SCREEN_HEIGHT
 
+class InstructionView(arcade.View):
+    """ View to show instructions """
 
+    def on_show_view(self):
+        """ This is run once when we switch to this view """
+        arcade.set_background_color(arcade.csscolor.DARK_SLATE_BLUE)
 
+        # Reset the viewport, necessary if we have a scrolling game and we need
+        # to reset the viewport back to the start so we can see what we draw.
+        arcade.set_viewport(0, self.window.width, 0, self.window.height)
 
+    def on_draw(self):
+        """ Draw this view """
+        self.clear()
+        arcade.draw_text("Welcome to Space Invader", self.window.width / 2, self.window.height / 2,
+                         arcade.color.WHITE, font_size=50, anchor_x="center")
+        arcade.draw_text("Here are the instructions", self.window.width / 2, self.window.height / 2-75,
+                         arcade.color.WHITE, font_size=20, anchor_x="center")
 
-class MyGame(arcade.Window):
+    def on_mouse_press(self, _x, _y, _button, _modifiers):
+        """ If the user presses the mouse button, start the game. """
+        game_view = MyGame()
+        game_view.setup()
+        self.window.show_view(game_view)
+
+class MyGame(arcade.View):
     """ Main application class. """
 
     def __init__(self):
-        """ Initializer """
         # Call the parent class initializer
-        super().__init__(SCREEN_WIDTH, SCREEN_HEIGHT, "Space Invader")
+        super().__init__()
 
+        """ Initializer """
         # Variables that will hold sprite lists
         self.player_list = None
         self.alien_list = None
@@ -60,6 +79,8 @@ class MyGame(arcade.Window):
         self.alien_ship2_list = None
         self.game_over = False
 
+        self.window.set_mouse_visible(False)
+
 
         # Set up the player info
         self.player_sprite = None
@@ -67,8 +88,7 @@ class MyGame(arcade.Window):
 
         self.laser_sound = arcade.load_sound("laserLarge_003.ogg")
 
-        # Don't show the mouse cursor
-        self.set_mouse_visible(False)
+
 
         arcade.set_background_color(arcade.color.AMAZON)
 
@@ -102,16 +122,13 @@ class MyGame(arcade.Window):
 
             self.meteor_list.append(meteor)
 
-        for i in range(ALIEN_COUNT2):
-            alien_ship2 = Alien2_ship2("shipYellow_manned.png", scale=0.4)
+        for i in range(AlIEN_COUNT):
+            alien_ship2 = Alien2_ship2("shipYellow_manned.png", scale=0.3)
 
             alien_ship2.center_x = random.randrange(SCREEN_WIDTH)
             alien_ship2.center_y = random.randrange(SCREEN_HEIGHT)
 
-
             self.alien_ship2_list.append(alien_ship2)
-
-
 
         # Create the aliens
         # Create the aliens instance
@@ -148,8 +165,7 @@ class MyGame(arcade.Window):
         if len(self.alien_list) == 0:
             arcade.draw_text("YOU WIN", 200, 300, arcade.color.BLUE, 75)
         elif self.game_over:
-            arcade.draw_text("GAME OVER", 100, 300, arcade.color.RED, 75)
-
+            arcade.draw_text("GAME OVER", 200, 300, arcade.color.RED, 75)
 
     def on_mouse_motion(self, x, y, dx, dy):
         self.player_sprite.center_x = x
@@ -180,19 +196,16 @@ class MyGame(arcade.Window):
             self.alien_list.update()
             self.bullet_list.update()
             self.meteor_list.update()
-            self.alien_ship2_list.update()
 
             # Loop through each bullet
             for bullet in self.bullet_list:
 
                 # Check the bullet to see if it hit a alien
                 hit_list = arcade.check_for_collision_with_list(bullet, self.alien_list)
-                hit_list2 = arcade.check_for_collision_with_list(bullet, self.alien_ship2_list)
+                hit_list2 = arcade.check_for_collision_with_list(bullet, self.alien_ship2_list )
 
                 # If it did, get rid of the bullet
                 if len(hit_list) > 0:
-                    bullet.remove_from_sprite_lists()
-                if len(hit_list2) > 0:
                     bullet.remove_from_sprite_lists()
 
                 # For every alien we hit, add to 1 to the score
@@ -200,6 +213,7 @@ class MyGame(arcade.Window):
                     alien.remove_from_sprite_lists()
                     self.score += 1
                     arcade.play_sound(self.laser_sound)
+
                 for alien2 in hit_list2:
                     alien2.remove_from_sprite_lists()
                     self.score += 1
@@ -215,16 +229,22 @@ class MyGame(arcade.Window):
                 self.game_over = True
 
 
-
+            #for self.player_sprite in meteor_sprite_hit_list:
+            #    if self.player_sprite and meteor_sprite_hit_list == 0:
+            #        print("you have crashed into a meteor, GAME OVER")
 
 
 
 
 def main():
-    window = MyGame()
-    window.setup()
+    window = arcade.Window(SCREEN_WIDTH, SCREEN_HEIGHT, "Space Invaders")
+
+    start_view = InstructionView()
+    window.show_view(start_view)
     arcade.run()
 
 
 if __name__ == "__main__":
+    main()
+
     main()
