@@ -52,9 +52,9 @@ class InstructionView(arcade.View):
     def on_draw(self):
         """ Draw this view """
         self.clear()
-        arcade.draw_text("Welcome to Space Invader", self.window.width / 2, self.window.height / 2,
-                         arcade.color.WHITE, font_size=50, anchor_x="center")
-        arcade.draw_text("Here are the instructions", self.window.width / 2, self.window.height / 2-75,
+        arcade.draw_text("Welcome to Space Invader \n instructions", self.window.width / 2, self.window.height / 2,
+                         arcade.color.WHITE, font_size=30, anchor_x="center")
+        arcade.draw_text("Click to advance", self.window.width / 2, self.window.height / 2-75,
                          arcade.color.WHITE, font_size=20, anchor_x="center")
 
     def on_mouse_press(self, _x, _y, _button, _modifiers):
@@ -196,6 +196,7 @@ class MyGame(arcade.View):
             self.alien_list.update()
             self.bullet_list.update()
             self.meteor_list.update()
+            self.alien_ship2_list.update()
 
             # Loop through each bullet
             for bullet in self.bullet_list:
