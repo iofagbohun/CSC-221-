@@ -1,314 +1,259 @@
-import arcade
-
-
 import random
 import arcade
-from pyglet.math import Vec2
 
-SPRITE_SCALING = 0.5
+SPRITE_SCALING_PLAYER = 0.5
+SPRITE_SCALING_COIN = 0.2
+SPRITE_SCALING_LASER = 0.8
+AlIEN_COUNT = 10
+METEOR_COUNT = 5
+ALIEN2_COUNT = 5
 
-DEFAULT_SCREEN_WIDTH = 800
-DEFAULT_SCREEN_HEIGHT = 600
-SCREEN_TITLE = "Final lab"
-ROCK_COUNT = 1
-SPRITE_SCALING_ROCK = 0.3
-ENEMY_COUNT = 1
+SCREEN_WIDTH = 800
+SCREEN_HEIGHT = 600
 
-# How many pixels to keep as a minimum margin between the character
-# and the edge of the screen.
-VIEWPORT_MARGIN = 220
-
-# How fast the camera pans to the player. 1.0 is instant.
-CAMERA_SPEED = 0.1
-
-# How fast the character moves
-PLAYER_MOVEMENT_SPEED = 7
+BULLET_SPEED = 5
 
 
-class MyGame(arcade.Window):
+class Meteor_moving(arcade.Sprite):
+    def __init__(self, file, scale):
+        super().__init__(file, scale)
+
+    def update(self):
+        self.center_y -= 1
+        if self.center_y == 0:
+            self.center_y = SCREEN_HEIGHT
+
+
+class Alien_sprite(arcade.Sprite):
+    def __init__(self, hits_needed, file, scale, speed=1):
+        super().__init__(file, scale)
+        self.hits_needed = hits_needed
+        self.speed = speed
+
+    def update(self):
+        self.center_y -= self.speed
+        if self.center_y == 0:
+            self.center_y = SCREEN_HEIGHT
+
+
+class InstructionView(arcade.View):
+    """ View to show instructions """
+
+    def on_show_view(self):
+        """ This is run once when we switch to this view """
+        arcade.set_background_color(arcade.csscolor.DARK_SLATE_BLUE)
+
+        # Reset the viewport, necessary if we have a scrolling game, and we need
+        # to reset the viewport back to the start, so we can see what we draw.
+        arcade.set_viewport(0, self.window.width, 0, self.window.height)
+
+    def on_draw(self):
+        """ Draw this view """
+        self.clear()
+        arcade.draw_text("Welcome to Space Invader", self.window.width / 2, self.window.height / 2,
+                         arcade.color.WHITE, font_size=30, anchor_x="center")
+        arcade.draw_text("Instructions:", self.window.width / 2, self.window.height / 2 - 50,
+                         arcade.color.WHITE, font_size=30, anchor_x="center")
+        arcade.draw_text("shoot the aliens before and avoid the meteors, click to advance", self.window.width / 2,
+                         self.window.height / 2 - 100,
+                         arcade.color.WHITE, font_size=20, anchor_x="center")
+
+    def on_mouse_press(self, _x, _y, _button, _modifiers):
+        """ If the user presses the mouse button, start the game. """
+        game_view = MyGame()
+        game_view.setup()
+        self.window.show_view(game_view)
+
+
+class MyGame(arcade.View):
     """ Main application class. """
 
-    def __init__(self, width, height, title):
-        """
-        Initializer
-        """
-        super().__init__(width, height, title, resizable=True)
+    def __init__(self):
+        # Call the parent class initializer
+        super().__init__()
 
-        # Sprite lists
+        """ Initializer """
+        # Variables that will hold sprite lists
         self.player_list = None
-        self.wall_list = None
-        self.rock_list = None
-        self.wall_hit_list = None
-        self.enemy_player = None
-        self.enemy_list = None
-        self.enemy_hit_list = None
+        self.alien_list = None
+        self.bullet_list = None
+        self.meteor_list = None
+        self.game_over = False
+        self.level = 0
 
-        # Set up the player
+        self.window.set_mouse_visible(False)
+
+        # Set up the player info
         self.player_sprite = None
         self.score = 0
 
+        self.laser_sound = arcade.load_sound("laserLarge_003.ogg")
 
-        # Physics engine so we don't run into walls.
-        self.physics_engine = None
+        arcade.set_background_color(arcade.color.AMAZON)
 
-        # Track the current state of what key is pressed
-        self.left_pressed = False
-        self.right_pressed = False
-        self.up_pressed = False
-        self.down_pressed = False
+    def build_aliens(self, sprite_list, level):
+        global alien_ship2
+        if level == 0:
+            for i in range(AlIEN_COUNT):
+                alien_ship = Alien_sprite(1, "shipBlue_manned.png", SPRITE_SCALING_COIN)
 
-        # loading sound
-        self.metalpot = arcade.load_sound("metalPot1.ogg")
+                # Position the aliens
+                alien_ship.center_x = random.randrange(SCREEN_WIDTH)
+                alien_ship.center_y = random.randrange(120, SCREEN_HEIGHT)
 
-        # Create the cameras. One for the GUI, one for the sprites.
+                # Add the aliens to the lists
+                sprite_list.append(alien_ship)
 
-        # We scroll the 'sprite world' but not the GUI.
+        elif level == 1:
+            for i in range(ALIEN2_COUNT):
+                alien_ship2 = Alien_sprite(3, "shipYellow_manned.png", scale=0.3, speed=2)
 
-        self.camera_sprites = arcade.Camera(DEFAULT_SCREEN_WIDTH, DEFAULT_SCREEN_HEIGHT)
+            alien_ship2.center_x = random.randrange(SCREEN_WIDTH)
+            alien_ship2.center_y = random.randrange(SCREEN_HEIGHT)
 
-        self.camera_gui = arcade.Camera(DEFAULT_SCREEN_WIDTH, DEFAULT_SCREEN_HEIGHT)
+            sprite_list.append(alien_ship2)
+
+        elif level == 2:
+            for i in range(AlIEN_COUNT):
+                alien_ship2 = Alien_sprite(5, "shipGreen_manned.png", scale=0.3)
+
+                alien_ship2.center_x = random.randrange(SCREEN_WIDTH)
+                alien_ship2.center_y = random.randrange(SCREEN_HEIGHT)
+
+                sprite_list.append(alien_ship2)
+        return sprite_list
 
     def setup(self):
+
         """ Set up the game and initialize the variables. """
 
         # Sprite lists
         self.player_list = arcade.SpriteList()
-        self.wall_list = arcade.SpriteList()
-        self.rock_list = arcade.SpriteList()
-        self.wall_hit_list = arcade.SpriteList()
-
-        # set up enemy player
-        self.enemy_player = arcade.SpriteList()
-        self.enemy_player.append()
-        self.score = 0
+        self.alien_list = arcade.SpriteList()
+        self.bullet_list = arcade.SpriteList()
+        self.meteor_list = arcade.SpriteList()
+        self.build_aliens(self.alien_list, self.level)
 
         # Set up the player
-        self.player_sprite = arcade.Sprite("character_maleAdventurer_run1.png", scale=0.5)
-        self.player_sprite.center_x = 256
-        self.player_sprite.center_y = 512
+        self.score = 0
+
+        # All images are from kenney.nl
+        self.player_sprite = arcade.Sprite("playerShip1_blue.png", SPRITE_SCALING_PLAYER)
+        self.player_sprite.center_x = 50
+        self.player_sprite.center_y = 70
         self.player_list.append(self.player_sprite)
 
+        # creating meteor # image from kenny.nl
+        # create instance of METEORS
+        for i in range(METEOR_COUNT):
+            meteor = Meteor_moving("meteorBrown_big1.png", scale=0.5)
 
+            meteor.center_x = random.randrange(SCREEN_WIDTH)
+            meteor.center_y = random.randrange(SCREEN_HEIGHT)
 
-        # -- Set up several columns and rows of walls
-        for x in range(200, 900, 110):
-            wall = arcade.Sprite("elementExplosive016.png", SPRITE_SCALING)
-            wall.center_x = x
-            wall.center_y = 300
-            self.wall_list.append(wall)
-        for x in range(900, 800, 110):
-            wall = arcade.Sprite("elementExplosive016.png", SPRITE_SCALING)
-            wall.center_x = x
-            wall.center_y = 800
-            self.wall_list.append(wall)
-        for x in range(430, 700, 110):
-            wall = arcade.Sprite("elementExplosive016.png", SPRITE_SCALING)
-            wall.center_x = x
-            wall.center_y = 555
-            self.wall_list.append(wall)
-        for x in range(450, 750, 110):
-            wall = arcade.Sprite("elementExplosive016.png", SPRITE_SCALING)
-            wall.center_x = x
-            wall.center_y = 450
-            self.wall_list.append(wall)
-            # X-axis outside wall
-        for x in range(-100, 1200, 110):
-            wall = arcade.Sprite("elementStone032.png", SPRITE_SCALING)
-            wall.center_x = x
-            wall.center_y = 100
-            self.wall_list.append(wall)
-        for x in range(-100, 1200, 110):
-            wall = arcade.Sprite("elementStone032.png", SPRITE_SCALING)
-            wall.center_x = x
-            wall.center_y = 1010
-            self.wall_list.append(wall)
-        for y in range(300, 900, 80):
-            wall = arcade.Sprite("elementExplosive016.png", SPRITE_SCALING)
-            wall.center_x = 100
-            wall.center_y = y
-            self.wall_list.append(wall)
-        for y in range(705, 800, 40):
-            wall = arcade.Sprite("elementExplosive016.png", SPRITE_SCALING)
-            wall.center_x = 300
-            wall.center_y = y
-            self.wall_list.append(wall)
-        for y in range(555, 900, 40):
-            wall = arcade.Sprite("elementExplosive016.png", SPRITE_SCALING)
-            wall.center_x = 900
-            wall.center_y = y
-            self.wall_list.append(wall)
-            # y-axis outside wall
-        for y in range(170, 1000, 110):
-            wall = arcade.Sprite("elementStone041.png", SPRITE_SCALING)
-            wall.center_x = -140
-            wall.center_y = y
-            self.wall_list.append(wall)
-        for y in range(170, 1000, 110):
-            wall = arcade.Sprite("elementStone041.png", SPRITE_SCALING)
-            wall.center_x = 1150
-            wall.center_y = y
-            self.wall_list.append(wall)
+            self.meteor_list.append(meteor)
 
-            for i in range(ENEMY_COUNT):
-                enemy = arcade.Sprite("character_robot_idle.png", scale=0.7)
-                enemy.center_x = random.randrange(-100, 1100)
-                enemy.center_y = random.randrange(110, 920)
-
-            for i in range(ROCK_COUNT):
-                rock = arcade.Sprite("rock.png", SPRITE_SCALING_ROCK)
-                # position rocks
-
-                placed = False
-
-                while not placed:
-                    rock.center_x = random.randrange(-100, 1100)
-                    rock.center_y = random.randrange(110, 920)
-                    # add to list
-
-                    wall_hit_list = arcade.check_for_collision_with_list(rock, self.wall_list)
-                    if len(wall_hit_list) == 0:
-                        placed = True
-
-                self.rock_list.append(rock)
-
-            self.physics_engine = arcade.PhysicsEngineSimple(self.player_sprite, self.wall_list)
+        # Create the aliens
+        # Create the aliens instance
+        # alien image from kenney.nl
 
         # Set the background color
-        arcade.set_background_color(arcade.color.AMAZON)
+        arcade.set_background_color(arcade.color.BLACK)
 
     def on_draw(self):
-        """ Render the screen. """
 
         # This command has to happen before we start drawing
-        self.clear()
-
-        # Select the camera we'll use to draw all our sprites
-
-        self.camera_sprites.use()
+        arcade.start_render()
 
         # Draw all the sprites.
-        self.wall_list.draw()
+        self.alien_list.draw()
+        self.bullet_list.draw()
         self.player_list.draw()
-        self.rock_list.draw()
-        self.enemy_player.draw()
+        self.meteor_list.draw()
 
-        # Select the (unscrolled) camera for our GUI
+        # Render the text
+        arcade.draw_text(f"Score: {self.score}", 10, 20, arcade.color.WHITE, 14)
 
-        self.camera_gui.use()
+        if len(self.alien_list) == 0 and self.level == 0:
+            self.level = 1
+            self.build_aliens(self.alien_list, self.level)
+        if len(self.alien_list) == 0 and self.level == 1:
+            arcade.draw_text("YOU WIN!", 200, 300, arcade.color.WHITE, 75)
+            self.game_over = True
 
-        output = f"Score: {self.score}"
-        arcade.draw_text(text=output, start_x=10, start_y=50,
-                         color=arcade.color.WHITE, font_size=14)
+        elif self.game_over:
+            arcade.draw_text("GAME OVER", 200, 300, arcade.color.RED, 75)
+            self.game_over = True
 
-        # Draw the GUI
-        arcade.draw_rectangle_filled(self.width // 2,
-                                     20,
-                                     self.width,
-                                     40,
-                                     arcade.color.ALMOND)
-        text = f"Scroll value: ({self.camera_sprites.position[0]:5.1f}, " \
-               f"{self.camera_sprites.position[1]:5.1f})"
-        arcade.draw_text(text, 10, 10, arcade.color.BLACK_BEAN, 20)
+    def on_mouse_motion(self, x, y, dx, dy):
+        self.player_sprite.center_x = x
 
-    def on_key_press(self, key, modifiers):
-        """Called whenever a key is pressed. """
+    def on_mouse_press(self, x, y, button, modifiers):
+        # Create a bullet
+        bullet = arcade.Sprite("laserBlue01.png", SPRITE_SCALING_LASER)
 
-        if key == arcade.key.UP:
-            self.up_pressed = True
-        elif key == arcade.key.DOWN:
-            self.down_pressed = True
-        elif key == arcade.key.LEFT:
-            self.left_pressed = True
-        elif key == arcade.key.RIGHT:
-            self.right_pressed = True
+        arcade.play_sound(self.laser_sound)
 
-    def on_key_release(self, key, modifiers):
-        """Called when the user releases a key. """
+        # The image points to the right, and we want it to point up. So
+        # rotate it.
+        bullet.angle = 360
 
-        if key == arcade.key.UP:
-            self.up_pressed = False
-        elif key == arcade.key.DOWN:
-            self.down_pressed = False
-        elif key == arcade.key.LEFT:
-            self.left_pressed = False
-        elif key == arcade.key.RIGHT:
-            self.right_pressed = False
+        # Position the bullet
+        bullet.center_x = self.player_sprite.center_x
+        bullet.bottom = self.player_sprite.top
+        bullet.change_y = BULLET_SPEED
 
-    def on_update(self, delta_time):
-        """ Movement and game logic """
+        # Add the bullet to the appropriate lists
+        self.bullet_list.append(bullet)
 
-        # Calculate speed based on the keys pressed
-        self.player_sprite.change_x = 0
-        self.player_sprite.change_y = 0
+    def update(self, delta_time):
 
-        if self.up_pressed and not self.down_pressed:
-            self.player_sprite.change_y = PLAYER_MOVEMENT_SPEED
-        elif self.down_pressed and not self.up_pressed:
-            self.player_sprite.change_y = -PLAYER_MOVEMENT_SPEED
-        if self.left_pressed and not self.right_pressed:
-            self.player_sprite.change_x = -PLAYER_MOVEMENT_SPEED
-        elif self.right_pressed and not self.left_pressed:
-            self.player_sprite.change_x = PLAYER_MOVEMENT_SPEED
+        if not self.game_over:
 
-        # Call update on all sprites (The sprites don't do much in this
-        # example though.)
-        self.physics_engine.update()
+            # Call update on all sprites
+            self.alien_list.update()
+            self.bullet_list.update()
+            self.meteor_list.update()
 
-        # Scroll the screen to the player
+            # Loop through each bullet
+            for bullet in self.bullet_list:
 
-        self.scroll_to_player()
+                # Check the bullet to see if it hit an alien
+                hit_list = arcade.check_for_collision_with_list(bullet, self.alien_list)
 
-        # checking for collision and loading sound
-        rock_hit_list = arcade.check_for_collision_with_list(self.player_sprite, self.rock_list)
+                # If it did, get rid of the bullet
+                if len(hit_list) > 0:
+                    bullet.remove_from_sprite_lists()
 
-        for rock in rock_hit_list:
-            rock.remove_from_sprite_lists()
-            self.score += 1
-            arcade.play_sound(self.metalpot)
+                # For every alien we hit, add to 1 to the score
+                for alien in hit_list:
+                    alien.remove_from_sprite_lists()
+                    self.score += 1
+                    arcade.play_sound(self.laser_sound)
 
-    def scroll_to_player(self):
+                # If the bullet flies off-screen, remove it.
+                if bullet.bottom > SCREEN_HEIGHT:
+                    bullet.remove_from_sprite_lists()
 
-        """
+            # when collide with meteor, game over
+            meteor_sprite_hit_list = arcade.check_for_collision_with_list(self.player_sprite, self.meteor_list)
+            if len(meteor_sprite_hit_list) > 0:
+                self.game_over = True
 
-        Scroll the window to the player.
+            # for self.player_sprite in meteor_sprite_hit_list:
 
-
-
-        if CAMERA_SPEED is 1, the camera will immediately move to the desired position.
-
-        Anything between 0 and 1 will have the camera move to the location with a smoother
-
-        pan.
-
-        """
-
-        position = Vec2(self.player_sprite.center_x - self.width / 2,
-
-                        self.player_sprite.center_y - self.height / 2)
-
-        self.camera_sprites.move_to(position, CAMERA_SPEED)
-
-    def on_resize(self, width, height):
-
-        """
-
-        Resize window
-
-        Handle the user grabbing the edge and resizing the window.
-
-        """
-
-        self.camera_sprites.resize(int(width), int(height))
-
-        self.camera_gui.resize(int(width), int(height))
+            #    if self.player_sprite and meteor_sprite_hit_list == 0:
+            #        print("you have crashed into a meteor, GAME OVER")
 
 
 def main():
-    """ Main function """
-    window = MyGame(DEFAULT_SCREEN_WIDTH, DEFAULT_SCREEN_HEIGHT, SCREEN_TITLE)
-    window.setup()
+    window = arcade.Window(SCREEN_WIDTH, SCREEN_HEIGHT, "Space Invaders")
+
+    start_view = InstructionView()
+    window.show_view(start_view)
     arcade.run()
 
 
 if __name__ == "__main__":
+    main()
     main()
