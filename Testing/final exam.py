@@ -56,7 +56,7 @@ class InstructionView(arcade.View):
                          arcade.color.WHITE, font_size=20, anchor_x="center")
 
     def on_mouse_press(self, _x, _y, _button, _modifiers):
-        """ If the user presses the mouse button, start the game. """
+        """ If the user presses the mouse button, start the game """
         game_view = MyGame()
         game_view.setup()
         self.window.show_view(game_view)
