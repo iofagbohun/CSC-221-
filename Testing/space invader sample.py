@@ -4,7 +4,7 @@ import arcade
 SPRITE_SCALING_PLAYER = 0.5
 SPRITE_SCALING_LASER = 0.8
 AlIEN_COUNT = 10
-METEOR_COUNT = 1
+METEOR_COUNT = 5
 
 SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 600
@@ -102,7 +102,7 @@ class MyGame(arcade.View):
 
         elif level == 1:
             for i in range(AlIEN_COUNT):
-                alien_ship2 = Alien_sprite(3, "shipYellow_manned.png", scale=0.3, speed=2)
+                alien_ship2 = Alien_sprite(3, "shipYellow_manned.png", scale=0.3, speed=1)
 
                 alien_ship2.center_x = random.randrange(SCREEN_WIDTH)
                 alien_ship2.center_y = random.randrange(SCREEN_HEIGHT)
