@@ -2,11 +2,9 @@ import random
 import arcade
 
 SPRITE_SCALING_PLAYER = 0.5
-SPRITE_SCALING_COIN = 0.2
 SPRITE_SCALING_LASER = 0.8
 AlIEN_COUNT = 10
-METEOR_COUNT = 5
-ALIEN2_COUNT = 5
+METEOR_COUNT = 1
 
 SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 600
@@ -50,12 +48,11 @@ class InstructionView(arcade.View):
     def on_draw(self):
         """ Draw this view """
         self.clear()
-        arcade.draw_text("Welcome to Space Invader", self.window.width / 2, self.window.height / 2,
+        arcade.draw_text("Welcome to Space Invader!", self.window.width / 2, self.window.height / 2,
                          arcade.color.WHITE, font_size=30, anchor_x="center")
-        arcade.draw_text("Instructions:", self.window.width / 2, self.window.height / 2 - 50,
-                         arcade.color.WHITE, font_size=30, anchor_x="center")
-        arcade.draw_text("shoot the aliens before and avoid the meteors, click to advance", self.window.width / 2,
-                         self.window.height / 2 - 100,
+        arcade.draw_text("Instructions:shoot the aliens and avoid the meteors", self.window.width / 2, self.window.height / 2 - 50,
+                         arcade.color.WHITE, font_size=20, anchor_x="center")
+        arcade.draw_text("Click to advance", self.window.width / 2, self.window.height / 2 - 100,
                          arcade.color.WHITE, font_size=20, anchor_x="center")
 
     def on_mouse_press(self, _x, _y, _button, _modifiers):
@@ -92,10 +89,9 @@ class MyGame(arcade.View):
         arcade.set_background_color(arcade.color.AMAZON)
 
     def build_aliens(self, sprite_list, level):
-        global alien_ship2
         if level == 0:
             for i in range(AlIEN_COUNT):
-                alien_ship = Alien_sprite(1, "shipBlue_manned.png", SPRITE_SCALING_COIN)
+                alien_ship = Alien_sprite(1, "shipBlue_manned.png", scale=0.3)
 
                 # Position the aliens
                 alien_ship.center_x = random.randrange(SCREEN_WIDTH)
@@ -105,17 +101,8 @@ class MyGame(arcade.View):
                 sprite_list.append(alien_ship)
 
         elif level == 1:
-            for i in range(ALIEN2_COUNT):
-                alien_ship2 = Alien_sprite(3, "shipYellow_manned.png", scale=0.3, speed=2)
-
-            alien_ship2.center_x = random.randrange(SCREEN_WIDTH)
-            alien_ship2.center_y = random.randrange(SCREEN_HEIGHT)
-
-            sprite_list.append(alien_ship2)
-
-        elif level == 2:
             for i in range(AlIEN_COUNT):
-                alien_ship2 = Alien_sprite(5, "shipGreen_manned.png", scale=0.3)
+                alien_ship2 = Alien_sprite(3, "shipYellow_manned.png", scale=0.3, speed=2)
 
                 alien_ship2.center_x = random.randrange(SCREEN_WIDTH)
                 alien_ship2.center_y = random.randrange(SCREEN_HEIGHT)
@@ -182,7 +169,7 @@ class MyGame(arcade.View):
             self.game_over = True
 
         elif self.game_over:
-            arcade.draw_text("GAME OVER", 200, 300, arcade.color.RED, 75)
+            arcade.draw_text("GAME OVER", 100, 300, arcade.color.RED, 75)
             self.game_over = True
 
     def on_mouse_motion(self, x, y, dx, dy):
